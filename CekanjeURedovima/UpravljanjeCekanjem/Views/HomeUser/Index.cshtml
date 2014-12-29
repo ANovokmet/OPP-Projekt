@@ -1,16 +1,15 @@
-﻿@model IEnumerable<UpravljanjeCekanjem.Models.Korisnik>
-
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
 <h2>Početni view za korisnike</h2>
-<p>
-    U bazi je @Model.Count() korisnika:
-</p>
-<ul>
-    @foreach (var korisnik in Model)
-    {
-        <li>@korisnik.userName, @korisnik.ime @korisnik.prezime - @korisnik.razinaPrava</li>
-    }
-</ul>
+@if (Model.Length == 0)
+{ 
+    @Html.ActionLink("Ulogiraj se", "LogIn", "HomeUser")
+}
+else
+{
+    <p>Ulogiran si kao @Model</p>
+    <p>@Html.ActionLink("Odlogiraj se", "Logout", "HomeUser")</p>
+    <p>@Html.ActionLink("Odi na svoju stranicu", "Index", "Manager")</p>
+}

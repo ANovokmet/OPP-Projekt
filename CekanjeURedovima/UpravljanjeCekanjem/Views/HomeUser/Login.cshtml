@@ -1,0 +1,13 @@
+﻿@model UpravljanjeCekanjem.Models.Korisnik
+@{
+    ViewBag.Title = "Login";
+}
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Login failed. Check your login details.");
+    
+    @Html.TextBoxFor(u => u.userName)
+    @Html.PasswordFor(u => u.lozinka)
+    <input type="submit" value="Log In">
+}
+
