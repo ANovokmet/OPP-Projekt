@@ -18,7 +18,6 @@ namespace UpravljanjeCekanjem
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            
         }
     }
 }

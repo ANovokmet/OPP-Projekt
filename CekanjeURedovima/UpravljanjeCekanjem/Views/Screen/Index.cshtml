@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Screen";
+}
+<head>
+    <title>Screen</title>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+function startTime() {
+    var today=new Date();
+    var h=today.getHours();
+    var m=today.getMinutes();
+    var s=today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('sat').innerHTML = h+":"+m+":"+s;
+    var t = setTimeout(function(){startTime()},500);
+}
+
+function checkTime(i) {
+    if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+    </script>
+</head>
+<body onload="startTime()">
+    <h2>Screen</h2>
+    <p id="broj">Velicina teksta: </p>
+    <p id="sat"></p>
+        <script>
+            $(function () {
+                var serv = $.connection.cvorHub;
+                $.connection.hub.start();
+                serv.client.pokreni = function (poruka) {
+                    console.log('pozvano');
+                    $('#broj').html($('#broj').html() + ' ' + poruka);
+                    $('#sat').css('font-size', poruka);
+                    //location.reload(true);
+                };
+            });
+        </script>
+</body>
