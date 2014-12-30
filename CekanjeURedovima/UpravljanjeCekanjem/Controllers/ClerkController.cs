@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Security.Claims;
 
 namespace UpravljanjeCekanjem.Controllers
 {
@@ -13,11 +14,10 @@ namespace UpravljanjeCekanjem.Controllers
 
         public ActionResult Index()
         {
-            if (Request.Cookies["currentuser"] == null)
-            {
-                return RedirectToAction("Login", "HomeUser");
-            }
-            if (Request.Cookies["currentuser"]["razinaprava"].Equals("nadzornik"))
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            ViewBag.Role = claimsIdentity.FindFirst(ClaimTypes.Role).Value;
+
+            if (ViewBag.Role.Equals("nadzornik "))
             {
                 return RedirectToAction("Index", "Manager");
             }

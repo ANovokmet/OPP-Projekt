@@ -1,4 +1,4 @@
-﻿@model UpravljanjeCekanjem.Models.Korisnik
+﻿@model UpravljanjeCekanjem.Models.LogInModel
 @{
     ViewBag.Title = "Login";
 }
@@ -6,8 +6,8 @@
 {
     @Html.ValidationSummary(true, "Login failed. Check your login details.");
     
-    @Html.TextBoxFor(u => u.userName)
-    @Html.PasswordFor(u => u.lozinka)
+    @Html.TextBoxFor(u => u.UserName)
+    @Html.PasswordFor(u => u.Password)
     <input type="submit" value="Log In">
 }
 

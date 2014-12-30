@@ -27,4 +27,15 @@ namespace UpravljanjeCekanjem.Models
         [StringLength(10)]
         public string razinaPrava { get; set; }
     }
+
+    public class LogInModel
+    {
+        [Required]
+        [DataType(DataType.Text)]
+        public string UserName { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+    }
 }

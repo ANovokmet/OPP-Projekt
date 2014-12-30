@@ -30,3 +30,12 @@ c:\users\ante\documents\visual studio 2013\Projects\CekanjeURedovima\Upravljanje
 c:\users\ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\obj\Debug\UpravljanjeCekanjem.csprojResolveAssemblyReference.cache
 c:\users\ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\obj\Debug\UpravljanjeCekanjem.dll
 c:\users\ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\obj\Debug\UpravljanjeCekanjem.pdb
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.Owin.dll
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.Owin.Security.dll
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Owin.dll
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.Owin.xml
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.Owin.Security.xml
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.Owin.Security.Cookies.xml

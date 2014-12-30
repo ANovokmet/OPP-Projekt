@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using UpravljanjeCekanjem.Models;
+using System.Security.Claims;
 
 namespace UpravljanjeCekanjem.Controllers
 {
@@ -14,52 +15,55 @@ namespace UpravljanjeCekanjem.Controllers
         // GET: /HomeUser/
         public ActionResult Index()
         {
-            if (Request.Cookies["currentuser"] == null)
-            {
-                return View((object)"");
-            }
-            else
-            {
-                return View((object)Request.Cookies["currentuser"]["username"]);
-            }
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+
+            ViewBag.UserName = claimsIdentity.FindFirst(ClaimTypes.Name).Value;
+            ViewBag.Role = claimsIdentity.FindFirst(ClaimTypes.Role).Value;
+            
+            return View();
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Login()
         {
-            if (Request.Cookies["currentuser"] == null)
-            {
-                return View();
-            }
-            else if (Request.Cookies["currentuser"]["razinaprava"].Equals("nadzornik"))
+            if(User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Manager");
             }
-            else
-            {
-                return RedirectToAction("Index", "Clerk");
-            }
+
+            var model = new LogInModel();
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Login(Korisnik user)
+        [AllowAnonymous]
+        public ActionResult Login(LogInModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             using (var db = new DataBaseEntities())
             {
                 Korisnik korisnik = (from u in db.Korisnik
-                                        where u.userName.Equals(user.userName) &&
-                                    u.lozinka.Equals(user.lozinka)
+                                     where u.userName.Equals(model.UserName) &&
+                                    u.lozinka.Equals(model.Password)
                                 select u).FirstOrDefault();
 
                 if (korisnik != null)
                 {
 
-                    string CookieName = "currentuser";
-                    HttpCookie myCookie = Request.Cookies[CookieName] ?? new HttpCookie(CookieName);
-                    myCookie.Values["username"] = korisnik.userName;
-                    myCookie.Values["razinaprava"] = korisnik.razinaPrava;
-                    myCookie.Expires = DateTime.Now.AddDays(1);//new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23,59,59);//možda do ponoći DateTime.Now
-                    Response.Cookies.Add(myCookie);
+                    var identity = new ClaimsIdentity(new[] {
+                        new Claim(ClaimTypes.Name, korisnik.userName),
+                        new Claim(ClaimTypes.Role, korisnik.razinaPrava)
+                            },
+                        "ApplicationCookie");
+
+                    var ctx = Request.GetOwinContext();
+                    var authManager = ctx.Authentication;
+                    authManager.SignIn(identity);
 
                     if (korisnik.razinaPrava.Equals("nadzornik "))
                     {
@@ -75,18 +79,16 @@ namespace UpravljanjeCekanjem.Controllers
                     ModelState.AddModelError("", "Login data is incorrect!");
                 }
             }
-            return View(user);
+            return View();
         }
 
         public ActionResult Logout()
         {
-            if (Request.Cookies["currentuser"] != null)
-            {
-                HttpCookie myCookie = new HttpCookie("currentuser");
-                myCookie.Expires = DateTime.Now.AddDays(-1d);
-                Response.Cookies.Add(myCookie);
-            }
-            return RedirectToAction("Login", "HomeUser");
+            var ctx = Request.GetOwinContext();
+            var authManager = ctx.Authentication;
+
+            authManager.SignOut("ApplicationCookie");
+            return RedirectToAction("index", "HomeUser");
         }
 
     }
