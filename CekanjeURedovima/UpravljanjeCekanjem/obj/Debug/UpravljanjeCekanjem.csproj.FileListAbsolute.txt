@@ -84,3 +84,7 @@ C:\Users\Goran\Documents\GitHub\OPP-Projekt\CekanjeURedovima\UpravljanjeCekanjem
 C:\Users\Goran\Documents\GitHub\OPP-Projekt\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
 C:\Users\Goran\Documents\GitHub\OPP-Projekt\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.AspNet.SignalR.Core.xml
 C:\Users\Goran\Documents\GitHub\OPP-Projekt\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\Ante\Documents\Visual Studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
