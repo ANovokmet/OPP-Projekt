@@ -1,0 +1,16 @@
+﻿@model UpravljanjeCekanjem.Models.TipTiketa
+@{
+    ViewBag.Title = "Edit";
+}
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Neuspjelo dodavanje.");
+
+    <p>Izmjeni @Model.tip</p>
+    <p>Opis: @Html.EditorFor(u => u.opis)</p>
+    <p>Ponuđena: @Html.EditorFor(u => u.ponudjena)</p>
+    <input type="submit" value="Spremi izmjene.">
+    <FORM>
+        <input type="button" value="Izbriši." onclick="parent.location = 'delete?tip=@Model.tip'">
+    </FORM> 
+}

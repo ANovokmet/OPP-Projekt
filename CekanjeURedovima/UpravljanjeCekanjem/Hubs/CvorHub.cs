@@ -19,10 +19,21 @@ namespace UpravljanjeCekanjem
         {
             using (var db = new DataBaseEntities())
             {
-                Postavke postavka = new Postavke();
+                Postavke postavka;
                 postavka = db.Postavke.Where(s => s.Identifikator == id).FirstOrDefault<Postavke>();// ili db.Postavke.FirstOrDefault(c => c.Identifikator == id); 
-                postavka.vrijednost = value;
-                db.Entry(postavka).State = System.Data.Entity.EntityState.Modified;
+                if (postavka != null)
+                {
+                    postavka.vrijednost = value;
+                    db.Entry(postavka).State = System.Data.Entity.EntityState.Modified;
+                }
+                else
+                {
+                    postavka = new Postavke();
+                    postavka.Identifikator = id;
+                    postavka.naziv = "font";
+                    postavka.vrijednost = value;
+                    db.Postavke.Add(postavka);
+                }
                 db.SaveChanges();
             }
         }

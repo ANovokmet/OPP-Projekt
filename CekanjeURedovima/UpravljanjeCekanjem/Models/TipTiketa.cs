@@ -22,7 +22,7 @@ namespace UpravljanjeCekanjem.Models
         [StringLength(50)]
         public string opis { get; set; }
 
-        public bool? ponudjena { get; set; }
+        public bool ponudjena { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tiket> Tiket { get; set; }

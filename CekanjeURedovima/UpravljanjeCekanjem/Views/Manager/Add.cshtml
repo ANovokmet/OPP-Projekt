@@ -1,0 +1,13 @@
+﻿@model UpravljanjeCekanjem.Models.TipTiketa
+@{
+    ViewBag.Title = "Add";
+}
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Neuspjelo dodavanje.");
+
+    <p>Tip: @Html.TextBoxFor(u => u.tip)</p>
+    <p>Opis: @Html.TextBoxFor(u => u.opis)</p>
+    <p>Ponuđena: @Html.CheckBoxFor(u => u.ponudjena)</p>
+<input type="submit" value="Dodaj tip tiketa">
+}

@@ -1,4 +1,5 @@
-﻿<head>
+﻿@model IEnumerable<UpravljanjeCekanjem.Models.TipTiketa>
+<head>
     <title>Nadzornik</title>
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -29,3 +30,11 @@
             });
         </script>
 </body>
+<p>Opcije redova: </p>
+<ul>
+    @foreach (var opcija in Model)
+    {
+        <p>@Html.ActionLink(opcija.opis, "Edit", new { tip = opcija.tip })</p>
+    }
+</ul>
+<p>@Html.ActionLink("Dodaj novu", "Add", "Manager")</p>
