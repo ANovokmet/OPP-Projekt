@@ -7,6 +7,7 @@ using System.Security.Claims;
 
 namespace UpravljanjeCekanjem.Controllers
 {
+    [CustomAuthorize(Roles = "službenik")]
     public class ClerkController : Controller
     {
         //
@@ -14,13 +15,6 @@ namespace UpravljanjeCekanjem.Controllers
 
         public ActionResult Index()
         {
-            var claimsIdentity = User.Identity as ClaimsIdentity;
-            ViewBag.Role = claimsIdentity.FindFirst(ClaimTypes.Role).Value;
-
-            if (ViewBag.Role.Equals("nadzornik "))
-            {
-                return RedirectToAction("Index", "Manager");
-            }
             return View();
         }
 

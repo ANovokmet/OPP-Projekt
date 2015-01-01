@@ -12,6 +12,7 @@ namespace UpravljanjeCekanjem
             {
                 AuthenticationType = "ApplicationCookie",
                 LoginPath = new PathString("/HomeUser/LogIn")
+                
             });
             app.MapSignalR();
         }

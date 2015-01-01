@@ -6,5 +6,5 @@
 
 <p>Ulogiran si kao @ViewBag.UserName @ViewBag.Role</p>
 <p>@Html.ActionLink("Odlogiraj se", "Logout", "HomeUser")</p>
-<p>@Html.ActionLink("Odi na svoju stranicu", "Index", "Manager")</p>
+<p>@Html.ActionLink("Odi na svoju stranicu", "Index", @ViewBag.Role.Equals("nadzornik") ? "Manager" : "Clerk")</p>
 

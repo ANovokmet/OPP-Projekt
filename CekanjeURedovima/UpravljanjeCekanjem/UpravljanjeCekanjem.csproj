@@ -138,6 +138,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\CustomAuthorize.cs" />
     <Compile Include="Controllers\ClerkController.cs" />
     <Compile Include="Controllers\HomeClientController.cs" />
     <Compile Include="Controllers\HomeUserController.cs" />

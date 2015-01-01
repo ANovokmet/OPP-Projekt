@@ -8,27 +8,18 @@ using UpravljanjeCekanjem.Models;
 
 namespace UpravljanjeCekanjem.Controllers
 {
+    [CustomAuthorize(Roles = "nadzornik")]
     public class ManagerController : Controller
     {/*mozda samo jedan db = new entitie*/
 
         private DataBaseEntities db = new DataBaseEntities();
         // 
         // GET: /Manager/
+        
         public ActionResult Index()
         {
-            var claimsIdentity = User.Identity as ClaimsIdentity;
-            ViewBag.Role = claimsIdentity.FindFirst(ClaimTypes.Role).Value;
-
-            if (ViewBag.Role.Equals("službenik "))
-            {
-                return RedirectToAction("Index", "Clerk");
-            }
-
             List<TipTiketa> tipovi;
-            using (var db = new DataBaseEntities())
-            {
-                tipovi = db.TipTiketa.ToList();
-            }
+            tipovi = db.TipTiketa.ToList();
 
             return View(tipovi);
         }
@@ -37,20 +28,14 @@ namespace UpravljanjeCekanjem.Controllers
         public ActionResult Edit(string tip)
         {
             TipTiketa tipTiketa;
-            using (var db = new DataBaseEntities())
-            {
-                tipTiketa = db.TipTiketa.Find(tip);
-            }
+            tipTiketa = db.TipTiketa.Find(tip);
             return View(tipTiketa);
         }
         [HttpPost]
         public ActionResult Edit(TipTiketa tipTiketa)
         {
-            using (var db = new DataBaseEntities())
-            {
-                db.Entry(tipTiketa).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-            }
+            db.Entry(tipTiketa).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
         public ActionResult Delete(string tip)

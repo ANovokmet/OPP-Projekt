@@ -65,7 +65,7 @@ namespace UpravljanjeCekanjem.Controllers
                     var authManager = ctx.Authentication;
                     authManager.SignIn(identity);
 
-                    if (korisnik.razinaPrava.Equals("nadzornik "))
+                    if (korisnik.razinaPrava.Equals("nadzornik"))
                     {
                         return RedirectToAction("Index", "Manager");
                     }
