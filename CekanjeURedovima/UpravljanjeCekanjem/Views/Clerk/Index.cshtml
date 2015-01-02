@@ -1,6 +1,29 @@
-﻿@{
+﻿<head>
+    <title>Službenik</title>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+</head>
+@{
     ViewBag.Title = "Index";
 }
 
 <h2>Prostor za službenika</h2>
 @Html.ActionLink("Odlogautaj se", "Logout", "HomeUser")
+
+<button type="button" id="flash">Flashaj broj</button>
+<script>
+    $(function () {
+        var serv = $.connection.cvorHub;
+        $.connection.hub.start().done(function () {
+            $('#flash').click(function () {
+                serv.server.pokreni_flash();
+            });
+
+        }).fail(function (error) {
+            console.log('greska ' + error);
+        });
+    });
+</script>

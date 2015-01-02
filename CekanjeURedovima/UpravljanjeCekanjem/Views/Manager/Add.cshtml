@@ -1,4 +1,12 @@
 ﻿@model UpravljanjeCekanjem.Models.TipTiketa
+<head>
+    <title>Add</title>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+</head>
 @{
     ViewBag.Title = "Add";
 }
@@ -9,5 +17,17 @@
     <p>Tip: @Html.TextBoxFor(u => u.tip)</p>
     <p>Opis: @Html.TextBoxFor(u => u.opis)</p>
     <p>Ponuđena: @Html.CheckBoxFor(u => u.ponudjena)</p>
-<input type="submit" value="Dodaj tip tiketa">
+    <input type="submit" value="Dodaj tip tiketa" id="add">
 }
+<script>
+    $(function () {
+        var serv = $.connection.cvorHub;
+        $.connection.hub.start().done(function () {
+            $('#add').click(function () {
+                serv.server.osvjezi_tipove();
+            });
+        }).fail(function (error) {
+            console.log('greska ' + error);
+        });
+    });
+</script>

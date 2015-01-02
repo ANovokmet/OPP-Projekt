@@ -1,4 +1,12 @@
 ﻿@model UpravljanjeCekanjem.Models.TipTiketa
+<head>
+    <title>Edit</title>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+</head>
 @{
     ViewBag.Title = "Edit";
 }
@@ -9,8 +17,24 @@
     <p>Izmjeni @Model.tip</p>
     <p>Opis: @Html.EditorFor(u => u.opis)</p>
     <p>Ponuđena: @Html.EditorFor(u => u.ponudjena)</p>
-    <input type="submit" value="Spremi izmjene.">
+    <input type="submit" id="save" value="Spremi izmjene.">
     <FORM>
-        <input type="button" value="Izbriši." onclick="parent.location = 'delete?tip=@Model.tip'">
+        <input type="button" value="Izbriši." id="delete">
     </FORM> 
 }
+<script>
+    $(function () {
+        var serv = $.connection.cvorHub;
+        $.connection.hub.start().done(function () {
+            $('#save').click(function () {
+                serv.server.osvjezi_tipove();
+            });
+            $('#delete').click(function () {
+                serv.server.osvjezi_tipove();
+                window.location.href = "delete?tip=@Model.tip";
+            });
+        }).fail(function (error) {
+            console.log('greska ' + error);
+        });
+    });
+</script>

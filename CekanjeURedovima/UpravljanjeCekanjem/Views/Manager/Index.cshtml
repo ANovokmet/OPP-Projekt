@@ -34,7 +34,12 @@
 <ul>
     @foreach (var opcija in Model)
     {
+        if(opcija.opis!=null){
         <p>@Html.ActionLink(opcija.opis, "Edit", new { tip = opcija.tip })</p>
+        }
+        else { 
+        <p>@Html.ActionLink("bezopisna", "Edit", new { tip = opcija.tip })</p>
+        }
     }
 </ul>
 <p>@Html.ActionLink("Dodaj novu", "Add", "Manager")</p>

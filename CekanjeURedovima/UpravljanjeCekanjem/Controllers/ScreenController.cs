@@ -13,6 +13,7 @@ namespace UpravljanjeCekanjem.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.broj = "BROJ KOJI FLASHA";
             return View();
         }
 

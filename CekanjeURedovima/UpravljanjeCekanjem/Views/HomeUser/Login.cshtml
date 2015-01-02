@@ -6,8 +6,8 @@
 {
     @Html.ValidationSummary(true, "Login failed. Check your login details.");
     
-    @Html.TextBoxFor(u => u.UserName)
-    @Html.PasswordFor(u => u.Password)
-    <input type="submit" value="Log In">
-}
+    <p>@Html.TextBoxFor(u => u.UserName)</p>
+    <p>@Html.PasswordFor(u => u.Password)</p>
+    <p><input type="submit" value="Log In"></p>
+    }
 

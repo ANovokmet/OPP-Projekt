@@ -32,7 +32,7 @@ namespace UpravljanjeCekanjem
                 var claimsIdentity = User.Identity as ClaimsIdentity;
                 rolesArray[0] = claimsIdentity.FindFirst(ClaimTypes.Role).Value;
 
-                System.Diagnostics.Debug.WriteLine(Context.User.Identity.Name+rolesArray[0]);
+                //System.Diagnostics.Debug.WriteLine(Context.User.Identity.Name+rolesArray[0]);
                 GenericPrincipal gp = new GenericPrincipal(Context.User.Identity, rolesArray);
                 Context.User = gp;
             }

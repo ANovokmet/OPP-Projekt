@@ -30,6 +30,7 @@ function checkTime(i) {
     <h2>Screen</h2>
     <p id="broj">Velicina teksta: </p>
     <p id="sat"></p>
+    <p id="broj2">@ViewBag.broj</p>
         <script>
             $(function () {
                 var serv = $.connection.cvorHub;
@@ -39,6 +40,10 @@ function checkTime(i) {
                     $('#broj').html($('#broj').html() + ' ' + poruka);
                     $('#sat').css('font-size', poruka);
                     //location.reload(true);
+                };
+                serv.client.flash = function () {
+                    console.log('flash');
+                    $("#broj2").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
                 };
             });
         </script>

@@ -15,6 +15,27 @@ namespace UpravljanjeCekanjem
             Osvjezi_postavku(0, Convert.ToInt32(poruka));
         }
 
+        public void Pokreni_flash()
+        {
+            Clients.All.flash();
+        }
+
+        public void Osvjezi_tipove()
+        {
+            System.Diagnostics.Debug.WriteLine("osvjezi tipove");
+            
+            using (var db = new DataBaseEntities())
+            {
+                var tipovi = from c in db.TipTiketa
+                                           where c.ponudjena == true
+                                           select c.tip;
+                if (tipovi.Any())
+                {
+                    Clients.All.dohvati_tipove(tipovi.ToList());
+                }
+            }
+        }
+
         public void Osvjezi_postavku(int id, int value)
         {
             using (var db = new DataBaseEntities())
