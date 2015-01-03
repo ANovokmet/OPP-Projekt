@@ -1,0 +1,11 @@
+﻿@model UpravljanjeCekanjem.Models.Tiket
+@{
+    ViewBag.Title = "IzdajTiket";
+}
+
+<h2>IzdajTiket</h2>
+<h3>Redni broj: @Model.redniBroj</h3>
+<p>Vrijeme izdavanja: @Model.vrijemeIzdavanja</p>
+<p>Tip: @Model.tip</p>
+
+<p>@Html.ActionLink("Natrag", "Index", "HomeClient")</p>

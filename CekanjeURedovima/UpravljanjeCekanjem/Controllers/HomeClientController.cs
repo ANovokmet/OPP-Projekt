@@ -7,6 +7,7 @@ using UpravljanjeCekanjem.Models;
 
 namespace UpravljanjeCekanjem.Controllers
 {
+    [AllowAnonymous]
     public class HomeClientController : Controller
     {
         //
@@ -15,12 +16,9 @@ namespace UpravljanjeCekanjem.Controllers
 
         public ActionResult Index()
         {
-            var db = new DataBaseEntities();
-
             var tipovi = from c in db.TipTiketa
                             where c.ponudjena == true
                             select c;
-            
 
             return View(tipovi);
         }
@@ -28,9 +26,25 @@ namespace UpravljanjeCekanjem.Controllers
         public ActionResult IzdajTiket(string tip)
         {
             Tiket tiket = new Tiket();
-            tiket.redniBroj = 1;
+
+            var zadnjiBroj = 
+                from x in db.Tiket
+                where x.tip.Equals(tip) && x.vrijemeIzdavanja.Day == DateTime.Now.Day
+                 && x.vrijemeIzdavanja.Month == DateTime.Now.Month
+                 && x.vrijemeIzdavanja.Year == DateTime.Now.Year
+                orderby x.redniBroj descending
+                select x.redniBroj;
+            if (zadnjiBroj.Any())
+            {
+                tiket.redniBroj = zadnjiBroj.First() + 1;
+            }
+            else
+            {
+                tiket.redniBroj = 1;
+            }
             tiket.tip = tip;
             tiket.vrijemeIzdavanja = DateTime.Now;
+
             try
             {
                 db.Tiket.Add(tiket);
@@ -40,8 +54,8 @@ namespace UpravljanjeCekanjem.Controllers
             {
                 
             }
-
-            return RedirectToAction("Index");
+            ViewBag.tiket = tiket;
+            return View(tiket);
         }
     }
 }
