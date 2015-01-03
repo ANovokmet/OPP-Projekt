@@ -1,4 +1,5 @@
-﻿@{
+﻿@model System.Collections.Generic.Dictionary<string, int>
+@{
     ViewBag.Title = "Screen";
 }
 <head>
@@ -48,3 +49,8 @@ function checkTime(i) {
             });
         </script>
 </body>
+@foreach (var entry in Model)
+{
+    <p id="@entry.Key">Red: @entry.Key Sljedeći broj: @entry.Value</p>
+}
+
