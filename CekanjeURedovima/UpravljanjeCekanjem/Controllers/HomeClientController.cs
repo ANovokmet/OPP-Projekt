@@ -23,20 +23,26 @@ namespace UpravljanjeCekanjem.Controllers
             return View(tipovi);
         }
 
-        public ActionResult IzdajTiket(string tip)
+        public ActionResult IzdajTiket(string tip)//trebat će nekak primat informaciju od drugih controllera kad se treba resetat redni broj
         {
             Tiket tiket = new Tiket();
 
             var zadnjiBroj = 
                 from x in db.Tiket
-                where x.tip.Equals(tip) && x.vrijemeIzdavanja.Day == DateTime.Now.Day
-                 && x.vrijemeIzdavanja.Month == DateTime.Now.Month
-                 && x.vrijemeIzdavanja.Year == DateTime.Now.Year
-                orderby x.redniBroj descending
+                where x.tip.Equals(tip)
+                orderby x.vrijemeIzdavanja descending
                 select x.redniBroj;
-            if (zadnjiBroj.Any())
+
+            if (zadnjiBroj.Any())//zasad sve prek baze
             {
-                tiket.redniBroj = zadnjiBroj.First() + 1;
+                if (zadnjiBroj.First() != 999) 
+                { 
+                    tiket.redniBroj = zadnjiBroj.First() + 1; 
+                }
+                else
+                {
+                    tiket.redniBroj = 1;
+                }
             }
             else
             {
@@ -45,6 +51,48 @@ namespace UpravljanjeCekanjem.Controllers
             tiket.tip = tip;
             tiket.vrijemeIzdavanja = DateTime.Now;
 
+            var posluzeni =
+                from x in db.Tiket
+                where x.tip.Equals(tip) && x.vrijemeDolaska != null //možda u bazi dodat CHECK dolazak>izdavanje
+                && x.vrijemeIzdavanja.Day == DateTime.Now.Day
+                && x.vrijemeIzdavanja.Month == DateTime.Now.Month
+                && x.vrijemeIzdavanja.Year == DateTime.Now.Year
+                select x;
+
+            if (posluzeni.Any())//ocekivano vrijeme se treba moci prikazati i na /screen/, bolje da se izracunava negdje drugdje a tu dohvaca
+            {
+                TimeSpan duration;
+                double total = 0;
+                foreach(var a in posluzeni)
+                {
+                    duration = (DateTime)a.vrijemeDolaska - a.vrijemeIzdavanja;
+                    total += duration.TotalSeconds;
+                }
+                ViewBag.ocekivano = DateTime.Now.AddSeconds(total / posluzeni.Count());
+            }
+            else
+            {
+                ViewBag.ocekivano = DateTime.Now;
+            }
+
+            var neposluzeni =
+                from x in db.Tiket
+                where x.tip.Equals(tip) && x.vrijemeDolaska == null //možda u bazi dodat CHECK dolazak>izdavanje
+                && x.vrijemeIzdavanja.Day == DateTime.Now.Day
+                && x.vrijemeIzdavanja.Month == DateTime.Now.Month
+                && x.vrijemeIzdavanja.Year == DateTime.Now.Year
+                && x.vrijemeIzdavanja < DateTime.Now
+                select x;
+
+            if (neposluzeni.Any())//trenutni broj u redu je samo tu potrebno prikazivati
+            {
+                ViewBag.brojuredu = neposluzeni.Count() + 1;
+            }
+            else
+            {
+                ViewBag.brojuredu = 1;
+            }
+
             try
             {
                 db.Tiket.Add(tiket);
@@ -52,9 +100,9 @@ namespace UpravljanjeCekanjem.Controllers
             }
             catch
             {
-                
+                System.Diagnostics.Debug.WriteLine("Error!");
             }
-            ViewBag.tiket = tiket;
+
             return View(tiket);
         }
     }

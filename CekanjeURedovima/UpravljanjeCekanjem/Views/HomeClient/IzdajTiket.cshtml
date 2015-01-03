@@ -4,8 +4,9 @@
 }
 
 <h2>IzdajTiket</h2>
-<h3>Redni broj: @Model.redniBroj</h3>
+<h3>Redni broj tiketa: @Model.redniBroj</h3>
 <p>Vrijeme izdavanja: @Model.vrijemeIzdavanja</p>
 <p>Tip: @Model.tip</p>
-
+<p>Trenutni broj u redu: @ViewBag.brojuredu</p>
+<p>Očekivano vrijeme dolaska na red: @ViewBag.ocekivano</p>
 <p>@Html.ActionLink("Natrag", "Index", "HomeClient")</p>
