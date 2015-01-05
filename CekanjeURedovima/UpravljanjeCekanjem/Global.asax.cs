@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Security.Principal;
 using System.Security.Claims;
+using System.Data.Entity;
 
 namespace UpravljanjeCekanjem
 {
@@ -20,6 +21,7 @@ namespace UpravljanjeCekanjem
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            Database.SetInitializer<DataBaseEntities>(null);
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs args)

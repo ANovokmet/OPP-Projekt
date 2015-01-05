@@ -5,6 +5,7 @@
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
     <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jscolor.js"></script>
     <script src="~/signalr/hubs"></script>
 </head>
 @{
@@ -13,29 +14,43 @@
 <body>
 <h2>Prostor za nadzornika</h2>
 @Html.ActionLink("Odlogautaj se", "Logout", "HomeUser")<br/>
-<p>Velicina teksta sata: </p><form><input type="text" name="velteksta" id="velteksta"></form>
+<p>Parametri: </p>
+    <form>
+        Velicina teksta:<input type="text" name="velteksta" id="velteksta">px<br/>
+        Boja teksta:<input class="color" id="bojateksta"/>
+    </form>
     <button type="button" id="refresh">Refreshaj Screen</button>
         <script>
+            var serv;
             $(function () {
-                var serv = $.connection.cvorHub;
+                serv = $.connection.cvorHub;
                 $.connection.hub.start().done(function () {
-                    console.log("spojeno");
+                    console.log('spojeno');
                     $('#refresh').click(function () {
-                        serv.server.pokreni_refresh($('#velteksta').val());
-                        $('#velteksta').val('');
+                        var a = $('#velteksta').val();
+                        var b = $('#bojateksta').val();
+                        if ((a!=='' && !$.isNumeric(a)) || (b!=='' && isNaN(parseInt(b,16))))
+                            alert('Greška pri unosu vrijednosti');
+                        else{
+                            serv.server.pokreni_refresh(a,b);
+                            $('#velteksta').val('');
+                            $('#bojateksta').val('FFFFFF');
+                        }
                     });
                 }).fail(function (error) {
                     console.log('greska ' + error);
                 });
             });
+            function salji(a) {
+                serv.server.reset_brojaca(a);
+            };
         </script>
-</body>
 <p>Opcije redova: </p>
 <ul>
     @foreach (var opcija in Model)
     {
         if(opcija.opis!=null){
-        <p>@Html.ActionLink(opcija.opis, "Edit", new { tip = opcija.tip })</p>
+        <p>@Html.ActionLink(opcija.opis, "Edit", new { tip = opcija.tip }) <button type="button" class="tipka" data-tip="@opcija.tip" onclick="salji($(this).data('tip'))">Resetiraj brojac</button></p>
         }
         else { 
         <p>@Html.ActionLink("bezopisna", "Edit", new { tip = opcija.tip })</p>
@@ -43,3 +58,4 @@
     }
 </ul>
 <p>@Html.ActionLink("Dodaj novu", "Add", "Manager")</p>
+</body>

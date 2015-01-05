@@ -8,7 +8,7 @@ using UpravljanjeCekanjem.Models;
 
 namespace UpravljanjeCekanjem.Controllers
 {
-    [CustomAuthorize(Roles = "nadzornik")]
+    [CustomAuthorize(Roles = "nadzornik")] //popraviti ovo, nece otvorit site, neka glupost sa equals
     public class ManagerController : Controller
     {/*mozda samo jedan db = new entitie*/
 
@@ -20,6 +20,10 @@ namespace UpravljanjeCekanjem.Controllers
         {
             List<TipTiketa> tipovi;
             tipovi = db.TipTiketa.ToList();
+           
+
+        /*var claimsIdentity = User.Identity as ClaimsIdentity;
+         System.Diagnostics.Debug.WriteLine(claimsIdentity.FindFirst(ClaimTypes.Role).Value);*/
 
             return View(tipovi);
         }
@@ -43,6 +47,7 @@ namespace UpravljanjeCekanjem.Controllers
             TipTiketa tipTiketa = db.TipTiketa.Find(tip);
             db.TipTiketa.Remove(tipTiketa);
             db.SaveChanges();
+            HomeClientController swag = new HomeClientController();
             return RedirectToAction("Index", "Manager");
         }
 

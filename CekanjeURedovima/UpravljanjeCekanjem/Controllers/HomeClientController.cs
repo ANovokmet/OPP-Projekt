@@ -17,9 +17,34 @@ namespace UpravljanjeCekanjem.Controllers
         public ActionResult Index()
         {
             var tipovi = from c in db.TipTiketa
-                            where c.ponudjena == true
-                            select c;
+                         where c.ponudjena == true
+                         select c;
 
+            List<String> redovi = (from x in db.TipTiketa
+                         select x.tip).ToList<String>();
+            int broj_redova = redovi.Count;
+            int broj_u_rj = Global.rjecnik.Count;
+            if (broj_u_rj < broj_redova)
+            {
+                foreach (String a in redovi)
+                {
+                    if (!Global.rjecnik.ContainsKey(a))
+                    {
+                        Global.rjecnik.Add(a, 1);
+                    }
+                }
+            }
+            else if (broj_u_rj > broj_redova)
+            {
+                foreach (string key in Global.rjecnik.Keys)
+                {
+                    if (!redovi.Contains(key))
+                    {
+                        Global.rjecnik.Remove(key);
+                    }
+                }
+            }
+            System.Diagnostics.Debug.WriteLine("zadnje osvj "+Global.rjecnik.Keys);
             return View(tipovi);
         }
 
@@ -27,7 +52,19 @@ namespace UpravljanjeCekanjem.Controllers
         {
             Tiket tiket = new Tiket();
 
-            var zadnjiBroj = 
+            List<String> redovi = (from x in db.TipTiketa
+                                   select x.tip).ToList<String>();
+
+            //opasan kod
+            int broj_tiket;
+            Global.semafor.WaitOne();
+            Global.rjecnik.TryGetValue(tip, out broj_tiket);
+            Global.rjecnik[tip] += 1;
+            Global.semafor.Release();
+            //kraj
+            System.Diagnostics.Debug.WriteLine(broj_tiket);
+
+            /*var zadnjiBroj = 
                 from x in db.Tiket
                 where x.tip.Equals(tip)
                 orderby x.vrijemeIzdavanja descending
@@ -47,7 +84,8 @@ namespace UpravljanjeCekanjem.Controllers
             else
             {
                 tiket.redniBroj = 1;
-            }
+            }*/
+            tiket.redniBroj = broj_tiket;
             tiket.tip = tip;
             tiket.vrijemeIzdavanja = DateTime.Now;
 

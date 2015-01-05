@@ -149,6 +149,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\CvorHub.cs" />
+    <Compile Include="Controllers\Global.cs" />
     <Compile Include="Models\Korisnik.cs" />
     <Compile Include="Models\Postavke.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -162,10 +163,15 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\arrow.gif" />
+    <Content Include="Scripts\cross.gif" />
+    <Content Include="Scripts\hs.png" />
+    <Content Include="Scripts\hv.png" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.1.2.js" />
     <Content Include="Scripts\jquery.signalR-2.1.2.min.js" />
+    <Content Include="Scripts\jscolor.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

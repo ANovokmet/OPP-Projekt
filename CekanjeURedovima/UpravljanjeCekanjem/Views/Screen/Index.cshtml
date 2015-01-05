@@ -4,8 +4,8 @@
 }
 <head>
     <title>Screen</title>
-    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
     <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
@@ -30,16 +30,17 @@ function checkTime(i) {
 <body onload="startTime()">
     <h2>Screen</h2>
     <p id="broj">Velicina teksta: </p>
-    <p id="sat"></p>
+    <p id="sat" style="font-size:@ViewBag.vel;color:@ViewBag.boja"></p>
     <p id="broj2">@ViewBag.broj</p>
         <script>
             $(function () {
                 var serv = $.connection.cvorHub;
                 $.connection.hub.start();
-                serv.client.pokreni = function (poruka) {
+                serv.client.pokreni = function (vel,boja) {
                     console.log('pozvano');
-                    $('#broj').html($('#broj').html() + ' ' + poruka);
-                    $('#sat').css('font-size', poruka);
+                    $('#broj').html(vel+' '+boja);
+                    $('#sat').css('font-size', vel);
+                    $('#sat').css('color', boja);
                     //location.reload(true);
                 };
                 serv.client.flash = function () {

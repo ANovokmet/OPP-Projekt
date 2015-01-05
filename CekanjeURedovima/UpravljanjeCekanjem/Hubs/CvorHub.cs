@@ -8,11 +8,12 @@ namespace UpravljanjeCekanjem
 {
     public class CvorHub : Hub
     {
-        public void Pokreni_refresh(String poruka)   //dodati potrebne parametre, spremiti u bazu, dodati dohvat iz baze pri reloadanju
+        public void Pokreni_refresh(String vel, String boj)   //dodati potrebne parametre, spremiti u bazu, dodati dohvat iz baze pri reloadanju
         {
-            System.Diagnostics.Debug.WriteLine("" + poruka);
-            Clients.All.pokreni(poruka+"px");
-            Osvjezi_postavku(0, Convert.ToInt32(poruka));
+            //System.Diagnostics.Debug.WriteLine("" + poruka);
+            Clients.All.pokreni(vel + "px", "#" + boj);
+            Osvjezi_postavku(0, vel);
+            Osvjezi_postavku(1, boj);
         }
 
         public void Pokreni_flash()
@@ -36,7 +37,7 @@ namespace UpravljanjeCekanjem
             }
         }
 
-        public void Osvjezi_postavku(int id, int value)
+        public void Osvjezi_postavku(int id, String value)
         {
             using (var db = new DataBaseEntities())
             {
@@ -68,6 +69,13 @@ namespace UpravljanjeCekanjem
                 korisnik.šalter = šalter;
                 db.SaveChanges();
             }
+        }
+        public void reset_brojaca(String tip)
+        {
+            //System.Diagnostics.Debug.WriteLine(""+tip);
+            Global.semafor.WaitOne();
+            Global.rjecnik[tip] = 1;
+            Global.semafor.Release();
         }
     }
 }
