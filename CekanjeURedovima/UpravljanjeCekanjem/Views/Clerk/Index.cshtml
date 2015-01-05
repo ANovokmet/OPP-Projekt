@@ -11,8 +11,39 @@
 }
 
 <h2>Prostor za službenika</h2>
-@Html.ActionLink("Odlogautaj se", "Logout", "HomeUser")
+<p>
+Šalter: @ViewData["šalter"]
+<br />
+@Html.DropDownList("tipovi")
+<button type="button" id="šalter" data-user=@User.Identity.Name>Promijeni šalter</button>
+<script>
+    $(function () {
+        var serv = $.connection.cvorHub;
+        $.connection.hub.start().done(function () {
+            $('#šalter').click(function () {
+                var user = $('#šalter').data('user');
+                var e = document.getElementById("tipovi");
+                var tip = e.options[e.selectedIndex].text;
+                var re = serv.server.promijeni_salter(tip, user);
+                setTimeout(
+                 function () {
+                     location.reload();
+                 }, 500);
+            });
 
+        }).fail(function (error) {
+            console.log('greska ' + error);
+        });
+    });
+</script>
+<p /> 
+@Html.ActionLink("Odlogautaj se", "Logout", "HomeUser") 
+<p>
+Klijent na redu: @ViewData["tiket"]
+</p> 
+<br />
+<button type="button">Sljedeći klijent</button>
+<br /><br />
 <button type="button" id="flash">Flashaj broj</button>
 <script>
     $(function () {

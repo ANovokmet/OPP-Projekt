@@ -58,5 +58,16 @@ namespace UpravljanjeCekanjem
                 db.SaveChanges();
             }
         }
+
+        public void Promijeni_salter(string šalter, string username)
+        {
+            using (var db = new DataBaseEntities())
+            {
+                Korisnik korisnik;
+                korisnik = db.Korisnik.FirstOrDefault( c => c.userName == username);
+                korisnik.šalter = šalter;
+                db.SaveChanges();
+            }
+        }
     }
 }

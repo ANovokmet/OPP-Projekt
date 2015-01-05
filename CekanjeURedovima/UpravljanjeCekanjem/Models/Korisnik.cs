@@ -26,6 +26,9 @@ namespace UpravljanjeCekanjem.Models
         [Required]
         [StringLength(10)]
         public string razinaPrava { get; set; }
+
+        [StringLength(50)]
+        public string šalter { get; set; }
     }
 
     public class LogInModel

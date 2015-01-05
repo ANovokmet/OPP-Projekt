@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Security.Claims;
+using UpravljanjeCekanjem.Models;
 
 namespace UpravljanjeCekanjem.Controllers
 {
@@ -13,8 +14,39 @@ namespace UpravljanjeCekanjem.Controllers
         //
         // GET: /Clerk/
 
+        DataBaseEntities db = new DataBaseEntities();
+
         public ActionResult Index()
         {
+            string user = User.Identity.Name;
+            var šalteri = from c in db.Korisnik
+                         where c.userName.Equals(user)
+                         select c.šalter;
+            string šalter = šalteri.First();
+            var tiketi = from t in db.Tiket
+                        where t.vrijemeDolaska == null
+                        where šalter.Equals(t.tip)
+                        orderby t.vrijemeIzdavanja ascending
+                         select t;
+            int tiket;
+            if (tiketi.Any()) 
+            {
+                tiket = tiketi.First().redniBroj;
+            }
+            else
+            {
+                tiket = 0;
+            }
+            var tipovi = from a in db.TipTiketa
+                         select a.tip;
+            IEnumerable<SelectListItem> tipoviEnum = tipovi.ToList().Select(x =>
+                                                        new SelectListItem()
+                                                        {
+                                                            Text = x.ToString()
+                                                        });
+            ViewData["šalter"] = šalter;
+            ViewData["tiket"] = tiket;
+            ViewData["tipovi"] = tipoviEnum;
             return View();
         }
 
