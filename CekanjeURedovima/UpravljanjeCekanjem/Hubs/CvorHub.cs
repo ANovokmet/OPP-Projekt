@@ -57,7 +57,7 @@ namespace UpravljanjeCekanjem
 
         public void Osvjezi_tipove()
         {
-            
+            System.Diagnostics.Debug.WriteLine("osvjezi tipove");
             
             using (var db = new DataBaseEntities())
             {
@@ -70,7 +70,6 @@ namespace UpravljanjeCekanjem
 
                 if (tipovi.Any())
                 {
-                    System.Diagnostics.Debug.WriteLine("osvjezi tipove");
                     Clients.All.dohvati_tipove(tipovi, opisi);
                 }
             }
@@ -114,6 +113,35 @@ namespace UpravljanjeCekanjem
                 Korisnik korisnik;
                 korisnik = db.Korisnik.FirstOrDefault(c => c.userName == username);
                 korisnik.šalter = šalter;
+                db.SaveChanges();
+            }
+        }
+
+        public void Next_client(string šalter)
+        {
+            using (var db = new DataBaseEntities())
+            {
+                Tiket tiket;
+                var tiketi = from t in db.Tiket
+                        where t.vrijemeDolaska == null
+                        where šalter.Equals(t.tip)
+                        orderby t.vrijemeIzdavanja ascending
+                        select t;
+                var neobrađeni = from t in db.Tiket
+                                 where t.vrijemeDolaska != null
+                                 where šalter.Equals(t.tip)
+                                 where t.obrađeno == false
+                                 orderby t.vrijemeDolaska descending
+                                 select t;
+                if (neobrađeni.Any())
+                {
+                    neobrađeni.First().obrađeno = true;
+                }
+                if (tiketi.Any())
+                {
+                    tiket = tiketi.First();
+                    tiket.vrijemeDolaska = DateTime.Now;
+                }
                 db.SaveChanges();
             }
         }

@@ -24,18 +24,20 @@ namespace UpravljanjeCekanjem.Controllers
                           select c.šalter;
             string šalter = šalteri.First();
             var tiketi = from t in db.Tiket
-                         where t.vrijemeDolaska == null
+                         where t.vrijemeDolaska != null
                          where šalter.Equals(t.tip)
-                         orderby t.vrijemeIzdavanja ascending
+                         orderby t.vrijemeDolaska descending
                          select t;
-            int tiket;
+            /*var neposluženi = from t in db.Tiket
+                              where t.vrijemeDolaska == null
+                              where šalter.Equals(t.tip)
+                              orderby t.vrijemeIzdavanja ascending
+                              select t;*/
+            int tiket = 0;
             if (tiketi.Any())
             {
-                tiket = tiketi.First().redniBroj;
-            }
-            else
-            {
-                tiket = 0;
+                if(tiketi.First().obrađeno == false)
+                    tiket = tiketi.First().redniBroj;
             }
             var tipovi = from a in db.TipTiketa
                          select a.tip;

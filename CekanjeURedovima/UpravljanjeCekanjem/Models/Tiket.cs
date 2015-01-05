@@ -26,5 +26,7 @@ namespace UpravljanjeCekanjem.Models
         public DateTime? vrijemeDolaska { get; set; }
 
         public virtual TipTiketa TipTiketa { get; set; }
+
+        public bool obraðeno { get; set; }
     }
 }
