@@ -1,34 +1,49 @@
 ﻿@model IEnumerable<UpravljanjeCekanjem.Models.TipTiketa>
-<title>Klijent</title>
-<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
-<script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
-<script src="~/signalr/hubs"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stranica za klijente</title>
 
-@{
-    ViewBag.Title = "Klijent";
-}
-<h2>Stranica za klijente</h2>
+    <link rel="stylesheet" href="~/css/metro-bootstrap.css">
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+    <script src="~/Scripts/jquery.widget.min.js"></script>
+    <script src="~/Scripts/metro.min.js"></script>
 
+    <script src="~/signalr/hubs"></script>
 
-<span id="gumbi">
-    @foreach (var tip in Model)
-{
-    <p><input type="button" id="@tip.tip" value="@tip.tip" onclick="location.href = '../HomeClient/IzdajTiket?tip=@tip.tip'">@tip.opis</p>
-}
-</span>
+    <script>
+        $(function () {
+            var serv = $.connection.cvorHub;
+            $.connection.hub.start();
+            serv.client.dohvati_tipove = function (listatipova, listaopisa) {
+                $("#gumbi").html('<span id="gumbi"></span>');
+                for (var i = 0, l = listatipova.length; i < l; i++) {
+                    $("#gumbi").append('<div class="tile bg-darkPink" onclick="location.href=\'../HomeClient/IzdajTiket?tip=' + listatipova[i] + '\'"><div class="tile-status"><span class="name">'+listatipova[i]+ ' : ' + listaopisa[i] + '</span></div></div>');
+                }
 
-<script>
-    $(function () {
-        var serv = $.connection.cvorHub;
-        $.connection.hub.start();
-        serv.client.dohvati_tipove = function (listatipova, listaopisa) {
-            $("#gumbi").html('<span id="gumbi"></span>');
-            for (var i = 0, l = listatipova.length; i < l; i++) {
-                $("#gumbi").append('<p>'+'<input type="button" id=' + listatipova[i] + ' value="' + listatipova[i] + '" onclick="location.href=\'../HomeClient/IzdajTiket?tip=' + listatipova[i] + '\'">' + listaopisa[i]+'</p>');
+            };
+        });
+    </script>
+
+</head>
+<body class="metro">
+    <div class="tile-area tile-area-dark">
+        <h1 class="tile-area-title fg-white">Molimo izaberite opciju za koju želite uslugu.</h1>
+
+        <span id="gumbi">
+            @foreach (var tip in Model)
+            {
+                <div class="tile bg-darkPink" onclick="location.href = '../HomeClient/IzdajTiket?tip=@tip.tip'">
+                    <div class="tile-status">
+                        <span class="name">@tip.tip : @tip.opis</span>
+                    </div>
+                </div>
             }
-            
-        };
-    });
-</script>
+        </span>
+    </div>
+
+</body>
+</html>

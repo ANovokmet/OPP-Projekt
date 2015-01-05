@@ -57,7 +57,7 @@ namespace UpravljanjeCekanjem
 
         public void Osvjezi_tipove()
         {
-            System.Diagnostics.Debug.WriteLine("osvjezi tipove");
+            
             
             using (var db = new DataBaseEntities())
             {
@@ -70,6 +70,7 @@ namespace UpravljanjeCekanjem
 
                 if (tipovi.Any())
                 {
+                    System.Diagnostics.Debug.WriteLine("osvjezi tipove");
                     Clients.All.dohvati_tipove(tipovi, opisi);
                 }
             }
