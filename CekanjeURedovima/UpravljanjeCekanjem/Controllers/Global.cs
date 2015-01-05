@@ -8,5 +8,5 @@ using System.Web.Mvc;
 public static class Global
 {
     public static Semaphore semafor = new Semaphore(1, 1);
-    public static Dictionary<String,int> rjecnik = new Dictionary<String,int>();
+    public static Dictionary<String, int> rjecnik = new Dictionary<String, int>();
 }

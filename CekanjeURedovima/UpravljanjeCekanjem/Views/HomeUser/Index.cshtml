@@ -5,8 +5,6 @@
 <h2>Početni view za korisnike</h2>
 
 <p>Ulogiran si kao @ViewBag.UserName @ViewBag.Role</p>
-<p>@Html.ActionLink("Odlogiraj se", "Logout", "HomeUser")</p><hr/>
-<p>@ViewBag.Role.Equals("nadzornik")</p>
+<p>@Html.ActionLink("Odlogiraj se", "Logout", "HomeUser")</p>
 <p>@Html.ActionLink("Odi na svoju stranicu", "Index", @ViewBag.Role.Equals("nadzornik") ? "Manager" : "Clerk")</p>
-<!-- ovdje gore ide "clerk" al nes ne radi-->
 

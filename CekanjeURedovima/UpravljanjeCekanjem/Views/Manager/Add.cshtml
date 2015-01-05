@@ -18,16 +18,5 @@
     <p>Opis: @Html.TextBoxFor(u => u.opis)</p>
     <p>Ponuđena: @Html.CheckBoxFor(u => u.ponudjena)</p>
     <input type="submit" value="Dodaj tip tiketa" id="add">
+    <input type="button" id="back" value="Natrag." onClick ="location.href='../Manager/'">
 }
-<script>
-    $(function () {
-        var serv = $.connection.cvorHub;
-        $.connection.hub.start().done(function () {
-            $('#add').click(function () {
-                serv.server.osvjezi_tipove();
-            });
-        }).fail(function (error) {
-            console.log('greska ' + error);
-        });
-    });
-</script>

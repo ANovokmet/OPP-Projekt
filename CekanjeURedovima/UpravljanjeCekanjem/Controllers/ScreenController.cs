@@ -25,6 +25,7 @@ namespace UpravljanjeCekanjem.Controllers
                 var tipovi = from c in db.TipTiketa
                              where c.ponudjena == true
                              select c;
+
                 var postavke = db.Postavke.Where(s => s.Identifikator.Equals(0)).FirstOrDefault<Postavke>();
                 ViewBag.vel = postavke.vrijednost;
                 postavke = db.Postavke.Where(s => s.Identifikator.Equals(1)).FirstOrDefault<Postavke>();

@@ -150,6 +150,7 @@
     </Compile>
     <Compile Include="Hubs\CvorHub.cs" />
     <Compile Include="Controllers\Global.cs" />
+    <Compile Include="Models\Izvjestaj.cs" />
     <Compile Include="Models\Korisnik.cs" />
     <Compile Include="Models\Postavke.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

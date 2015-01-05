@@ -18,23 +18,6 @@
     <p>Opis: @Html.EditorFor(u => u.opis)</p>
     <p>Ponuđena: @Html.EditorFor(u => u.ponudjena)</p>
     <input type="submit" id="save" value="Spremi izmjene.">
-    <FORM>
-        <input type="button" value="Izbriši." id="delete">
-    </FORM> 
+    <input type="button" id="back" value="Natrag." onClick ="location.href='../Manager/'">
+    <input type="button" value="Izbriši." id="delete" onclick="parent.location = 'delete?tip=@Model.tip'">
 }
-<script>
-    $(function () {
-        var serv = $.connection.cvorHub;
-        $.connection.hub.start().done(function () {
-            $('#save').click(function () {
-                serv.server.osvjezi_tipove();
-            });
-            $('#delete').click(function () {
-                serv.server.osvjezi_tipove();
-                window.location.href = "delete?tip=@Model.tip";
-            });
-        }).fail(function (error) {
-            console.log('greska ' + error);
-        });
-    });
-</script>

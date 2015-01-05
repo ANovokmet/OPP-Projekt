@@ -29,16 +29,16 @@ function checkTime(i) {
 </head>
 <body onload="startTime()">
     <h2>Screen</h2>
-    <p id="broj">Velicina teksta: </p>
+    <p id="broj"></p>
     <p id="sat" style="font-size:@ViewBag.vel;color:@ViewBag.boja"></p>
     <p id="broj2">@ViewBag.broj</p>
         <script>
             $(function () {
                 var serv = $.connection.cvorHub;
                 $.connection.hub.start();
-                serv.client.pokreni = function (vel,boja) {
+                serv.client.pokreni = function (vel, boja) {
                     console.log('pozvano');
-                    $('#broj').html(vel+' '+boja);
+                    $('#broj').html(vel + ' ' + boja);
                     $('#sat').css('font-size', vel);
                     $('#sat').css('color', boja);
                     //location.reload(true);
@@ -47,11 +47,15 @@ function checkTime(i) {
                     console.log('flash');
                     $("#broj2").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
                 };
+                serv.client.updatered = function (red, value) {
+                    console.log('update'+red);
+                    $("#" + red).text(value);
+                };
             });
         </script>
 </body>
 @foreach (var entry in Model)
 {
-    <p id="@entry.Key">Red: @entry.Key Sljedeći broj: @entry.Value</p>
+    <p>Red: <span id="@entry.Key key">@entry.Key</span> Sljedeći broj: <span id="@entry.Key">@entry.Value</span></p>
 }
 

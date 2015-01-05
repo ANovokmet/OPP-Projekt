@@ -14,10 +14,10 @@
 <body>
 <h2>Prostor za nadzornika</h2>
 @Html.ActionLink("Odlogautaj se", "Logout", "HomeUser")<br/>
-<p>Parametri: </p>
+    <p>Parametri: </p>
     <form>
-        Velicina teksta:<input type="text" name="velteksta" id="velteksta">px<br/>
-        Boja teksta:<input class="color" id="bojateksta"/>
+        Velicina teksta:<input type="text" name="velteksta" id="velteksta">px<br />
+        Boja teksta:<input class="color" id="bojateksta" />
     </form>
     <button type="button" id="refresh">Refreshaj Screen</button>
         <script>
@@ -29,13 +29,16 @@
                     $('#refresh').click(function () {
                         var a = $('#velteksta').val();
                         var b = $('#bojateksta').val();
-                        if ((a!=='' && !$.isNumeric(a)) || (b!=='' && isNaN(parseInt(b,16))))
+                        if ((a !== '' && !$.isNumeric(a)) || (b !== '' && isNaN(parseInt(b, 16))))
                             alert('Greška pri unosu vrijednosti');
-                        else{
-                            serv.server.pokreni_refresh(a,b);
-                            $('#velteksta').val('');
-                            $('#bojateksta').val('FFFFFF');
+                        else {
+                            serv.server.pokreni_refresh(a, b);
+                            $('#velteksta').val(a);
+                            $('#bojateksta').val(b);
                         }
+                    });
+                    $(document).ready(function () {
+                        serv.server.osvjezi_tipove();
                     });
                 }).fail(function (error) {
                     console.log('greska ' + error);
@@ -45,17 +48,25 @@
                 serv.server.reset_brojaca(a);
             };
         </script>
+
 <p>Opcije redova: </p>
 <ul>
-    @foreach (var opcija in Model)
+        @foreach (var opcija in Model)
     {
-        if(opcija.opis!=null){
-        <p>@Html.ActionLink(opcija.opis, "Edit", new { tip = opcija.tip }) <button type="button" class="tipka" data-tip="@opcija.tip" onclick="salji($(this).data('tip'))">Resetiraj brojac</button></p>
+        if (opcija.opis != null)
+        {
+            <p>@Html.ActionLink(opcija.opis, "Edit", new { tip = opcija.tip }) <button type="button" class="tipka" data-tip="@opcija.tip" onclick="salji($(this).data('tip'))">Resetiraj brojac</button></p>
         }
-        else { 
-        <p>@Html.ActionLink("bezopisna", "Edit", new { tip = opcija.tip })</p>
+        else
+        {
+            <p>@Html.ActionLink("bezopisna", "Edit", new { tip = opcija.tip })<button type="button" class="tipka" data-tip="@opcija.tip" onclick="salji($(this).data('tip'))">Resetiraj brojac</button></p>
         }
     }
 </ul>
 <p>@Html.ActionLink("Dodaj novu", "Add", "Manager")</p>
 </body>
+@using (Html.BeginForm("Report", "Manager", FormMethod.Get)) {
+    @Html.DropDownList("IzvjestajTip")
+    @Html.DropDownList("IzvjestajRaspon")
+    <input type="submit" value="Submit" />
+}

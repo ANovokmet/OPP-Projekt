@@ -8,7 +8,7 @@ namespace UpravljanjeCekanjem
 {
     public class CvorHub : Hub
     {
-        public void Pokreni_refresh(String vel, String boj)   //dodati potrebne parametre, spremiti u bazu, dodati dohvat iz baze pri reloadanju
+        public void Pokreni_refresh(String vel, String boj)  
         {
             //System.Diagnostics.Debug.WriteLine("" + poruka);
             Clients.All.pokreni(vel + "px", "#" + boj);
@@ -21,6 +21,40 @@ namespace UpravljanjeCekanjem
             Clients.All.flash();
         }
 
+        public void Osvjezi_screen_tip()
+        {
+            using (var db = new DataBaseEntities())
+            {
+                var tipovi = from c in db.TipTiketa
+                             where c.ponudjena == true
+                             select c;
+
+                foreach (TipTiketa a in tipovi)
+                {
+                    var prviBroj =
+                        from x in db.Tiket
+                        where x.tip.Equals(a.tip) && x.vrijemeDolaska == null
+                        && x.vrijemeIzdavanja.Day == DateTime.Now.Day
+                        && x.vrijemeIzdavanja.Month == DateTime.Now.Month
+                        && x.vrijemeIzdavanja.Year == DateTime.Now.Year
+                        orderby x.vrijemeIzdavanja ascending
+                        select x.redniBroj;
+
+                    if (prviBroj.Any())
+                    {
+                        System.Diagnostics.Debug.WriteLine(a.tip+prviBroj.First());
+                        Clients.All.updatered(a.tip, prviBroj.First().ToString());//trenutni broj
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine(a.tip+0);
+                        Clients.All.updatered(a.tip, "0"); 
+                    }
+                }
+            }
+            
+        }
+
         public void Osvjezi_tipove()
         {
             System.Diagnostics.Debug.WriteLine("osvjezi tipove");
@@ -30,14 +64,18 @@ namespace UpravljanjeCekanjem
                 var tipovi = from c in db.TipTiketa
                                            where c.ponudjena == true
                                            select c.tip;
+                var opisi = from c in db.TipTiketa
+                             where c.ponudjena == true
+                             select c.opis;
+
                 if (tipovi.Any())
                 {
-                    Clients.All.dohvati_tipove(tipovi.ToList());
+                    Clients.All.dohvati_tipove(tipovi, opisi);
                 }
             }
         }
 
-        public void Osvjezi_postavku(int id, String value)
+        public void Osvjezi_postavku(int id, string value)
         {
             using (var db = new DataBaseEntities())
             {
@@ -60,22 +98,23 @@ namespace UpravljanjeCekanjem
             }
         }
 
-        public void Promijeni_salter(string šalter, string username)
-        {
-            using (var db = new DataBaseEntities())
-            {
-                Korisnik korisnik;
-                korisnik = db.Korisnik.FirstOrDefault( c => c.userName == username);
-                korisnik.šalter = šalter;
-                db.SaveChanges();
-            }
-        }
         public void reset_brojaca(String tip)
         {
             //System.Diagnostics.Debug.WriteLine(""+tip);
             Global.semafor.WaitOne();
             Global.rjecnik[tip] = 1;
             Global.semafor.Release();
+        }
+
+        public void Promijeni_salter(string šalter, string username)
+        {
+            using (var db = new DataBaseEntities())
+            {
+                Korisnik korisnik;
+                korisnik = db.Korisnik.FirstOrDefault(c => c.userName == username);
+                korisnik.šalter = šalter;
+                db.SaveChanges();
+            }
         }
     }
 }

@@ -20,16 +20,16 @@ namespace UpravljanjeCekanjem.Controllers
         {
             string user = User.Identity.Name;
             var šalteri = from c in db.Korisnik
-                         where c.userName.Equals(user)
-                         select c.šalter;
+                          where c.userName.Equals(user)
+                          select c.šalter;
             string šalter = šalteri.First();
             var tiketi = from t in db.Tiket
-                        where t.vrijemeDolaska == null
-                        where šalter.Equals(t.tip)
-                        orderby t.vrijemeIzdavanja ascending
+                         where t.vrijemeDolaska == null
+                         where šalter.Equals(t.tip)
+                         orderby t.vrijemeIzdavanja ascending
                          select t;
             int tiket;
-            if (tiketi.Any()) 
+            if (tiketi.Any())
             {
                 tiket = tiketi.First().redniBroj;
             }

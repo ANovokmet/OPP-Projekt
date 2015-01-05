@@ -17,6 +17,7 @@ namespace UpravljanjeCekanjem.Models
         [StringLength(50)]
         public string naziv { get; set; }
 
-        public String vrijednost { get; set; }
+        [StringLength(50)]
+        public string vrijednost { get; set; }
     }
 }

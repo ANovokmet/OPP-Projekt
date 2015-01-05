@@ -8,7 +8,7 @@ using UpravljanjeCekanjem.Models;
 
 namespace UpravljanjeCekanjem.Controllers
 {
-    [CustomAuthorize(Roles = "nadzornik")] //popraviti ovo, nece otvorit site, neka glupost sa equals
+    [CustomAuthorize(Roles = "nadzornik")]
     public class ManagerController : Controller
     {/*mozda samo jedan db = new entitie*/
 
@@ -18,12 +18,24 @@ namespace UpravljanjeCekanjem.Controllers
         
         public ActionResult Index()
         {
-            List<TipTiketa> tipovi;
-            tipovi = db.TipTiketa.ToList();
-           
+            List<TipTiketa> tipovi  = db.TipTiketa.ToList();
 
-        /*var claimsIdentity = User.Identity as ClaimsIdentity;
-         System.Diagnostics.Debug.WriteLine(claimsIdentity.FindFirst(ClaimTypes.Role).Value);*/
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach (var tip in tipovi)
+            {
+                items.Add(new SelectListItem { Text = tip.tip, Value = tip.tip });
+            }
+            ViewBag.IzvjestajTip = items;
+
+            List<SelectListItem> timespan = new List<SelectListItem>();
+            timespan.Add(new SelectListItem { Text = "Dnevno", Value = "dnevno" });
+            timespan.Add(new SelectListItem { Text = "Tjedno", Value = "tjedno" });
+            timespan.Add(new SelectListItem { Text = "Mjesečno", Value = "mjesečno" });
+            ViewBag.IzvjestajRaspon = timespan;
+            
+
+
+
 
             return View(tipovi);
         }
@@ -45,9 +57,16 @@ namespace UpravljanjeCekanjem.Controllers
         public ActionResult Delete(string tip)
         {
             TipTiketa tipTiketa = db.TipTiketa.Find(tip);
-            db.TipTiketa.Remove(tipTiketa);
-            db.SaveChanges();
-            HomeClientController swag = new HomeClientController();
+            try
+            {
+                db.TipTiketa.Remove(tipTiketa);
+                db.SaveChanges();
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Provjeriti postoje li tiketi vezani stranim ključem!");
+                return View();
+            }
             return RedirectToAction("Index", "Manager");
         }
 
@@ -73,5 +92,52 @@ namespace UpravljanjeCekanjem.Controllers
 
             return RedirectToAction("Index", "Manager");
         }
+
+        public ActionResult Report(string IzvjestajTip, string IzvjestajRaspon)
+        {   
+            ViewBag.tip = IzvjestajTip;
+            ViewBag.raspon = IzvjestajRaspon;
+
+            var posluzeni =//ne uzimam u obzir neponištene tikete, možda bih trebao, ali svi trebaju bit poništeni do kraja dana
+                from x in db.Tiket
+                where x.tip.Equals(IzvjestajTip) && x.vrijemeDolaska != null
+                select x;
+
+            switch (IzvjestajRaspon)
+            {
+                case "dnevno":
+                    {
+                        var izvjestaj = posluzeni.AsEnumerable().GroupBy(kvp => new DateTime(kvp.vrijemeIzdavanja.Year, kvp.vrijemeIzdavanja.Month, kvp.vrijemeIzdavanja.Day), kvp => (kvp.vrijemeDolaska.Value - kvp.vrijemeIzdavanja).TotalSeconds)
+                            .Select(g => new Izvjestaj { key = g.Key, avg = g.Average(), max = g.Max(), count = g.Count() });
+                        return View(izvjestaj);
+                    }
+                case "tjedno":
+                    {
+                        var izvjestaj = posluzeni.AsEnumerable().GroupBy(kvp => StartOfWeek(kvp.vrijemeIzdavanja), kvp => (kvp.vrijemeDolaska.Value - kvp.vrijemeIzdavanja).TotalSeconds)
+                            .Select(g => new Izvjestaj { key = g.Key, avg = g.Average(), max = g.Max(), count = g.Count() });
+                        return View(izvjestaj);
+                    }
+                case "mjesečno":
+                    {
+                        var izvjestaj = posluzeni.AsEnumerable().GroupBy(kvp => new DateTime(kvp.vrijemeIzdavanja.Year, kvp.vrijemeIzdavanja.Month, 1), kvp => (kvp.vrijemeDolaska.Value - kvp.vrijemeIzdavanja).TotalSeconds)
+                            .Select(g => new Izvjestaj { key = g.Key, avg = g.Average(), max = g.Max(), count = g.Count() });
+                        return View(izvjestaj);
+                    }
+                default:
+                    return RedirectToAction("Index","Manager");
+            }
+        }
+
+        public static DateTime StartOfWeek(DateTime dt)
+        {
+            int diff = dt.DayOfWeek - DayOfWeek.Monday;
+            if (diff < 0)
+            {
+                diff += 7;
+            }
+            return dt.AddDays(-1 * diff).Date;
+        }
     }
+
+
 }

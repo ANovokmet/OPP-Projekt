@@ -1,0 +1,33 @@
+﻿@model IEnumerable<UpravljanjeCekanjem.Models.Izvjestaj>
+@{
+    ViewBag.Title = "Report";
+}
+
+<h2>Izvještaj za red @ViewBag.tip za @ViewBag.raspon izvještajno razdoblje</h2>
+
+<table style="width:100%">
+    <tr>
+        <th>Početak jedinice izvještajnog razdoblja</th>
+        <th>Prosječno vrijeme čekanja</th>
+        <th>Najduže vrijeme čekanja</th>
+        <th>Broj izdanih tiketa</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.key</td>
+            <td>@item.avg s</td>
+            <td>@item.max s</td>
+            <td>@item.count</td>
+        </tr>
+    }
+</table>
+
+<input type="button" id="back" value="Natrag." onclick="location.href='../Manager/'">
+<button onclick="tiskaj()">Tiskaj ovu stranicu.</button>
+
+<script>
+    function tiskaj() {
+        window.print();
+    }
+</script>

@@ -17,11 +17,11 @@ namespace UpravljanjeCekanjem.Controllers
         public ActionResult Index()
         {
             var tipovi = from c in db.TipTiketa
-                         where c.ponudjena == true
-                         select c;
+                            where c.ponudjena == true
+                            select c;
 
             List<String> redovi = (from x in db.TipTiketa
-                         select x.tip).ToList<String>();
+                        select x.tip).ToList<String>();
             int broj_redova = redovi.Count;
             int broj_u_rj = Global.rjecnik.Count;
             if (broj_u_rj < broj_redova)
@@ -101,7 +101,7 @@ namespace UpravljanjeCekanjem.Controllers
             {
                 TimeSpan duration;
                 double total = 0;
-                foreach(var a in posluzeni)
+                foreach (var a in posluzeni)
                 {
                     duration = (DateTime)a.vrijemeDolaska - a.vrijemeIzdavanja;
                     total += duration.TotalSeconds;

@@ -9,10 +9,26 @@
 @{
     ViewBag.Title = "Klijent";
 }
-
 <h2>Stranica za klijente</h2>
-@foreach (var tip in Model)
-{
-    <p>@Html.ActionLink(tip.tip+":"+tip.opis, "IzdajTiket", new {tip=@tip.tip})</p>
-}
 
+
+<span id="gumbi">
+    @foreach (var tip in Model)
+{
+    <p><input type="button" id="@tip.tip" value="@tip.tip" onclick="location.href = '../HomeClient/IzdajTiket?tip=@tip.tip'">@tip.opis</p>
+}
+</span>
+
+<script>
+    $(function () {
+        var serv = $.connection.cvorHub;
+        $.connection.hub.start();
+        serv.client.dohvati_tipove = function (listatipova, listaopisa) {
+            $("#gumbi").html('<span id="gumbi"></span>');
+            for (var i = 0, l = listatipova.length; i < l; i++) {
+                $("#gumbi").append('<p>'+'<input type="button" id=' + listatipova[i] + ' value="' + listatipova[i] + '" onclick="location.href=\'../HomeClient/IzdajTiket?tip=' + listatipova[i] + '\'">' + listaopisa[i]+'</p>');
+            }
+            
+        };
+    });
+</script>
