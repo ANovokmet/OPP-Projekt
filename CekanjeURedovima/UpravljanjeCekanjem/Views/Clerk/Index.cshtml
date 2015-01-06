@@ -7,7 +7,7 @@
     <script src="~/signalr/hubs"></script>
 </head>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Službenik";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -73,7 +73,7 @@
         var serv = $.connection.cvorHub;
         $.connection.hub.start().done(function () {
             $('#flash').click(function () {
-                serv.server.pokreni_flash();
+                serv.server.pokreni_flash('@ViewData["šalter"]');
             });
 
         }).fail(function (error) {

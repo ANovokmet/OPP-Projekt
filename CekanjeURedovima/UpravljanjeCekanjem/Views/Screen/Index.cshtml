@@ -43,9 +43,9 @@ function checkTime(i) {
                     $('#sat').css('color', boja);
                     //location.reload(true);
                 };
-                serv.client.flash = function () {
+                serv.client.flash = function (tip) {
                     console.log('flash');
-                    $("#broj2").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+                    $("#"+tip).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
                 };
                 serv.client.updatered = function (red, value) {
                     console.log('update'+red);

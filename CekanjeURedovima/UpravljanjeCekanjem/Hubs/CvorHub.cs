@@ -16,9 +16,10 @@ namespace UpravljanjeCekanjem
             Osvjezi_postavku(1, boj);
         }
 
-        public void Pokreni_flash()
+        public void Pokreni_flash(string tip)
         {
-            Clients.All.flash();
+            System.Diagnostics.Debug.WriteLine("flash:" + tip);
+            Clients.All.flash(tip);
         }
 
         public void Osvjezi_screen_tip()
@@ -31,25 +32,29 @@ namespace UpravljanjeCekanjem
 
                 foreach (TipTiketa a in tipovi)
                 {
-                    var prviBroj =
-                        from x in db.Tiket
-                        where x.tip.Equals(a.tip) && x.vrijemeDolaska == null
-                        && x.vrijemeIzdavanja.Day == DateTime.Now.Day
-                        && x.vrijemeIzdavanja.Month == DateTime.Now.Month
-                        && x.vrijemeIzdavanja.Year == DateTime.Now.Year
-                        orderby x.vrijemeIzdavanja ascending
-                        select x.redniBroj;
+                    var tiketi = from t in db.Tiket
+                                where t.vrijemeDolaska != null
+                                && t.vrijemeIzdavanja.Day == DateTime.Now.Day
+                                && t.vrijemeIzdavanja.Month == DateTime.Now.Month
+                                && t.vrijemeIzdavanja.Year == DateTime.Now.Year
+                                && a.tip.Equals(t.tip)
+                                orderby t.vrijemeIzdavanja descending
+                                select t;
 
-                    if (prviBroj.Any())
+                    int tiket = 0;
+                    if (tiketi.Any())
                     {
-                        System.Diagnostics.Debug.WriteLine(a.tip+prviBroj.First());
-                        Clients.All.updatered(a.tip, prviBroj.First().ToString());//trenutni broj
+                        if (tiketi.First().obrađeno == false)
+                        {
+                            tiket = tiketi.First().redniBroj;
+                        }
                     }
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine(a.tip+0);
-                        Clients.All.updatered(a.tip, "0"); 
-                    }
+
+
+                    System.Diagnostics.Debug.WriteLine(a.tip + tiket.ToString());
+                    Clients.All.updatered(a.tip, tiket.ToString());//trenutni broj
+                    
+                    
                 }
             }
             

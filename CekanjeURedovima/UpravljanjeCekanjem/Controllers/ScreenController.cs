@@ -33,23 +33,28 @@ namespace UpravljanjeCekanjem.Controllers
 
                 foreach (TipTiketa a in tipovi)
                 {
-                    var prviBroj =
-                        from x in db.Tiket
-                        where x.tip.Equals(a.tip) && x.vrijemeDolaska == null
-                        && x.vrijemeIzdavanja.Day == DateTime.Now.Day
-                        && x.vrijemeIzdavanja.Month == DateTime.Now.Month
-                        && x.vrijemeIzdavanja.Year == DateTime.Now.Year
-                        orderby x.vrijemeIzdavanja ascending
-                        select x.redniBroj;
+                    
+                    var tiketi = from t in db.Tiket
+                                 where t.vrijemeDolaska != null
+                                 && t.vrijemeIzdavanja.Day == DateTime.Now.Day
+                                 && t.vrijemeIzdavanja.Month == DateTime.Now.Month
+                                 && t.vrijemeIzdavanja.Year == DateTime.Now.Year
+                                 && a.tip.Equals(t.tip)
+                                 orderby t.vrijemeIzdavanja descending
+                                 select t;
 
-                    if (prviBroj.Any())
+                    int tiket = 0;
+                    if (tiketi.Any())
                     {
-                        redovi.Add(a.tip, prviBroj.First());//trenutni broj
+                        if (tiketi.First().obrađeno == false)
+                        {
+                            tiket = tiketi.First().redniBroj;
+                        }
                     }
-                    else
-                    {
-                        redovi.Add(a.tip, 0);
-                    }
+
+                    
+                    redovi.Add(a.tip, tiket);//trenutni broj
+                    
                 }
             }
 
