@@ -23,7 +23,6 @@ namespace UpravljanjeCekanjem.Controllers
             using(var db = new DataBaseEntities())
             {
                 var tipovi = from c in db.TipTiketa
-                             where c.ponudjena == true
                              select c;
 
                 var postavke = db.Postavke.Where(s => s.Identifikator.Equals(0)).FirstOrDefault<Postavke>();

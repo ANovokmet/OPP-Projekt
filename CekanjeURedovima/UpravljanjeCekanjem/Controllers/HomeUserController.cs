@@ -76,7 +76,7 @@ namespace UpravljanjeCekanjem.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Login data is incorrect!");
+                    ModelState.AddModelError("", "Provjerite svoje podatke i pokušajte ponovno.");
                 }
             }
             return View();

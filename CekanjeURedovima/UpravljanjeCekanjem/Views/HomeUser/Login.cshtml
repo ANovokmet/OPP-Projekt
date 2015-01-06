@@ -1,28 +1,20 @@
 ﻿@model UpravljanjeCekanjem.Models.LogInModel
 @{
+    ViewBag.title = "Stranica za korisnike";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Stranica za korisnike</title>
-    <link rel="stylesheet" href="~/css/metro-bootstrap.css">
-    <script src="~/Scripts/jquery.widget.min.js"></script>
-    <script src="~/Scripts/metro.min.js"></script>
-</head>
-<body class="metro">
-    <div class="tile-area tile-area-white">
-        <h1 class="fg-darker">Za nastavak rada potrebna je prijava u sustav.</h1>
-        <h2 class="fg-darker">Molim prijavite se.</h2>
-        @using (Html.BeginForm())
-        {
-            @Html.ValidationSummary(true, "Prijavljivanje neuspješno. Provjerite svoje podatke i pokušajte ponovno.");
-    <p class="fg-darker">Korisničko ime:</p>
-            <p>@Html.TextBoxFor(u => u.UserName)</p>
-    <p class="fg-darker">Lozinka:</p>
-            <p>@Html.PasswordFor(u => u.Password)</p>
-            <p><input type="submit" value="Prijavi se."></p>
-        }
-    </div>
-</body>
-</html>
+
+<div class="tile-area tile-area-white">
+    <h1 class="fg-darker">Za nastavak rada potrebna je prijava u sustav.</h1>
+    <h2 class="fg-darker">Molim prijavite se.</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true, "Prijavljivanje neuspješno.");
+        <p class="fg-darker">Korisničko ime:</p>
+        <p>@Html.TextBoxFor(u => u.UserName)</p>
+        <p class="fg-darker">Lozinka:</p>
+        <p>@Html.PasswordFor(u => u.Password)</p>
+        <p><input type="submit" value="Prijavi se."></p>
+    }
+</div>
+

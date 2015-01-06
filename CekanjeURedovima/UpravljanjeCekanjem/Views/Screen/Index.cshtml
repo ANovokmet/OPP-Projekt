@@ -1,15 +1,11 @@
 ﻿@model System.Collections.Generic.Dictionary<string, int>
 @{
     ViewBag.Title = "Screen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.showmenu = false;
 }
-<head>
-    <title>Screen</title>
-    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
-    <script src="~/signalr/hubs"></script>
-    <script>
+
+<script>
 function startTime() {
     var today=new Date();
     var h=today.getHours();
@@ -25,8 +21,8 @@ function checkTime(i) {
     if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
 }
-    </script>
-</head>
+</script>
+
 <body onload="startTime()">
     <h2>Screen</h2>
     <p id="broj"></p>
