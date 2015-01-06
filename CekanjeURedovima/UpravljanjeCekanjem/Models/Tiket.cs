@@ -27,6 +27,6 @@ namespace UpravljanjeCekanjem.Models
 
         public virtual TipTiketa TipTiketa { get; set; }
 
-        public bool? obraðeno { get; set; }
+        public bool obraðeno { get; set; }
     }
 }

@@ -31,13 +31,10 @@ namespace UpravljanjeCekanjem.Controllers
             int tiket = 0;
             if (tiketi.Any())
             {
-                tiket = tiketi.First().redniBroj;
-            }
-            else
-            {
-                tiket = 0;
                 if (tiketi.First().obrađeno == false)
+                {
                     tiket = tiketi.First().redniBroj;
+                }
             }
             var tipovi = from a in db.TipTiketa
                          select a.tip;
