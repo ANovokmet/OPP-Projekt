@@ -111,13 +111,12 @@ namespace UpravljanjeCekanjem.Controllers
             else
             {
                 ViewBag.ocekivano = DateTime.Now;
-                tiket.vrijemeDolaska = tiket.vrijemeIzdavanja;
             }
 
             var neposluzeni =
                 from x in db.Tiket
-                where x.tip.Equals(tip) && 
-                (x.vrijemeDolaska == null || x.vrijemeDolaska != null && x.obrađeno == false)//možda u bazi dodat CHECK dolazak>izdavanje ( dolazak >= izdavanje, ako je odma na redu?)
+                where x.tip.Equals(tip) &&
+                (x.vrijemeDolaska == null || x.vrijemeDolaska != null && x.obrađeno == false)//možda u bazi dodat CHECK dolazak>izdavanje
                 && x.vrijemeIzdavanja.Day == DateTime.Now.Day
                 && x.vrijemeIzdavanja.Month == DateTime.Now.Month
                 && x.vrijemeIzdavanja.Year == DateTime.Now.Year

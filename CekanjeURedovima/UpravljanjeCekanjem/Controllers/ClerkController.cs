@@ -26,17 +26,17 @@ namespace UpravljanjeCekanjem.Controllers
             var tiketi = from t in db.Tiket
                          where t.vrijemeDolaska != null
                          where šalter.Equals(t.tip)
-                         orderby t.vrijemeDolaska descending
+                         orderby t.vrijemeIzdavanja descending
                          select t;
-            /*var neposluženi = from t in db.Tiket
-                              where t.vrijemeDolaska == null
-                              where šalter.Equals(t.tip)
-                              orderby t.vrijemeIzdavanja ascending
-                              select t;*/
             int tiket = 0;
             if (tiketi.Any())
             {
-                if(tiketi.First().obrađeno == false)
+                tiket = tiketi.First().redniBroj;
+            }
+            else
+            {
+                tiket = 0;
+                if (tiketi.First().obrađeno == false)
                     tiket = tiketi.First().redniBroj;
             }
             var tipovi = from a in db.TipTiketa

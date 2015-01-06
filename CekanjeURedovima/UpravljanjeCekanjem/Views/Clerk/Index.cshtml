@@ -8,7 +8,9 @@
 </head>
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <h2>Prostor za službenika</h2>
 <p>
     Šalter: @ViewData["šalter"]
@@ -41,27 +43,29 @@
     Klijent na redu: @ViewData["tiket"]
 </p>
 <p>
-<button type="button" id="next" data-pult=@ViewData["šalter"] data-num=@ViewData["tiket"]>Sljedeći klijent</button>
-<script>
-    $(function () {
-        var serv = $.connection.cvorHub;
-        $.connection.hub.start().done(function () {
-            $('#next').click(function () {
-                var tip = $('#next').data('pult');
-                var naRedu = $('#next').data('num');
-                if(naRedu != 0)
-                    serv.server.next_client(tip);
-                setTimeout(
-                  function () {
-                      location.reload();
-                  }, 500);
-            });
-        }).fail(function (error) {
-            console.log('greska' + error);
-        });
-   });
-</script>
-</p><br />
+    <button type="button" id="next" data-pult=@ViewData["šalter"] data-num=@ViewData["tiket"]>Sljedeći klijent</button>
+    
+    <script>
+         $(function () {
+             var serv = $.connection.cvorHub;
+             $.connection.hub.start().done(function () {
+                 $('#next').click(function () {
+                     var tip = $('#next').data('pult');
+                     var naRedu = $('#next').data('num');
+                     if(naRedu != 0)
+                     serv.server.next_client(tip);
+                     setTimeout(
+                     function () {
+                         location.reload();
+                         }, 500);
+                     });
+                 }).fail(function (error) {
+                     console.log('greska' + error);
+                     });
+             });
+        </script>
+    
+</p><br/>
 <button type="button" id="flash">Flashaj broj</button>
 <script>
     $(function () {

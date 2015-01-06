@@ -1,72 +1,94 @@
 ﻿@model IEnumerable<UpravljanjeCekanjem.Models.TipTiketa>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
 <head>
     <title>Nadzornik</title>
+    <link rel="stylesheet" href="~/css/metro-bootstrap.css">
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
     <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
     <script type="text/javascript" src="~/Scripts/jscolor.js"></script>
     <script src="~/signalr/hubs"></script>
-</head>
-@{
-    ViewBag.Title = "Index";
-}
-<body>
-<h2>Prostor za nadzornika</h2>
-@Html.ActionLink("Odlogautaj se", "Logout", "HomeUser")<br/>
-    <p>Parametri: </p>
-    <form>
-        Velicina teksta:<input type="text" name="velteksta" id="velteksta">px<br />
-        Boja teksta:<input class="color" id="bojateksta" />
-    </form>
-    <button type="button" id="refresh">Refreshaj Screen</button>
-        <script>
-            var serv;
-            $(function () {
-                serv = $.connection.cvorHub;
-                $.connection.hub.start().done(function () {
-                    console.log('spojeno');
-                    $('#refresh').click(function () {
-                        var a = $('#velteksta').val();
-                        var b = $('#bojateksta').val();
-                        if ((a !== '' && !$.isNumeric(a)) || (b !== '' && isNaN(parseInt(b, 16))))
-                            alert('Greška pri unosu vrijednosti');
-                        else {
-                            serv.server.pokreni_refresh(a, b);
-                            $('#velteksta').val(a);
-                            $('#bojateksta').val(b);
-                        }
-                    });
-                    $(document).ready(function () {
-                        serv.server.osvjezi_tipove();
-                    });
-                }).fail(function (error) {
-                    console.log('greska ' + error);
+    <script src="~/Scripts/jquery.widget.min.js"></script>
+    <link href="~/css/metro-bootstrap-responsive.css" rel="stylesheet">
+    <script src="~/Scripts/metro.min.js"></script>
+    <script>
+        var serv;
+        $(function () {
+            serv = $.connection.cvorHub;
+            $.connection.hub.start().done(function () {
+                console.log('spojeno');
+                $('#refresh').click(function () {
+                    var a = $('#velteksta').val();
+                    var b = $('#bojateksta').val();
+                    if ((a !== '' && !$.isNumeric(a)) || (b !== '' && isNaN(parseInt(b, 16))))
+                        alert('Greška pri unosu vrijednosti');
+                    else {
+                        serv.server.pokreni_refresh(a, b);
+                        $('#velteksta').val(a);
+                        $('#bojateksta').val(b);
+                    }
                 });
+                $(document).ready(function () {
+                    serv.server.osvjezi_tipove();
+                });
+            }).fail(function (error) {
+                console.log('greska ' + error);
             });
-            function salji(a) {
-                serv.server.reset_brojaca(a);
-            };
-        </script>
+        });
+        function salji(a) {
+            serv.server.reset_brojaca(a);
+        };
+    </script>
+</head>
+<body class="metro">
+    <div class="container fg-dark">
+        <h2>Prostor za nadzornika</h2>
+        @Html.ActionLink("Odlogautaj se", "Logout", "HomeUser")<br />
+        <p>Parametri: </p>
+        <form>
+            Velicina teksta:<input type="text" name="velteksta" id="velteksta">px<br />
+            Boja teksta:<input class="color" id="bojateksta" />
+        </form>
+        <button type="button" id="refresh">Refreshaj Screen</button>
+        </div>
+        <div class="container fg-dark">
+            <div class="grid">
+                <div class="row">
+                    <div class="span12">Opcije redova: </div>
+                </div>
+                @foreach (var opcija in Model)
+                {
+                    <div class="row">
+                        @if (opcija.opis != null)
+                        {
+                            <div class="span8">@Html.ActionLink(opcija.opis, "Edit", new { tip = opcija.tip })</div>
+                            <div class="span4"> <button type="button" class="tipka" data-tip="@opcija.tip" onclick="salji($(this).data('tip'))">Resetiraj brojac</button></div>
+                        }
+                        else
+                        {
+                            <div class="span8">@Html.ActionLink("Opcija nema opis.", "Edit", new { tip = opcija.tip })</div>
+                            <div class="span4"><button type="button" class="tipka" data-tip="@opcija.tip" onclick="salji($(this).data('tip'))">Resetiraj brojac</button></div>
+                        }
+                    </div>
+                }
+                <div class="row">
+                    <div class="span12">@Html.ActionLink("Dodaj novu", "Add", "Manager")</div>
+                </div>
+            </div>
 
-<p>Opcije redova: </p>
-<ul>
-        @foreach (var opcija in Model)
-    {
-        if (opcija.opis != null)
-        {
-            <p>@Html.ActionLink(opcija.opis, "Edit", new { tip = opcija.tip }) <button type="button" class="tipka" data-tip="@opcija.tip" onclick="salji($(this).data('tip'))">Resetiraj brojac</button></p>
-        }
-        else
-        {
-            <p>@Html.ActionLink("bezopisna", "Edit", new { tip = opcija.tip })<button type="button" class="tipka" data-tip="@opcija.tip" onclick="salji($(this).data('tip'))">Resetiraj brojac</button></p>
-        }
-    }
-</ul>
-<p>@Html.ActionLink("Dodaj novu", "Add", "Manager")</p>
+            <div class="container fg-dark">
+                @using (Html.BeginForm("Report", "Manager", FormMethod.Get))
+                {
+                    @Html.DropDownList("IzvjestajTip")
+                    @Html.DropDownList("IzvjestajRaspon")
+                    <input type="submit" value="Submit" />
+                }
+            </div>
+        </div>
 </body>
-@using (Html.BeginForm("Report", "Manager", FormMethod.Get)) {
-    @Html.DropDownList("IzvjestajTip")
-    @Html.DropDownList("IzvjestajRaspon")
-    <input type="submit" value="Submit" />
-}
+</html>
