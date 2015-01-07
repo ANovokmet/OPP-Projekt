@@ -154,8 +154,8 @@ namespace UpravljanjeCekanjem
                 {
                     tiket = tiketi.First();
                     tiket.vrijemeDolaska = DateTime.Now;
-                    Osvjezi_screen_vrijeme(tiket.tip);
                 }
+                Osvjezi_screen_vrijeme(šalter);
                 db.SaveChanges();
             }
         }

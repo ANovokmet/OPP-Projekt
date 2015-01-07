@@ -4,6 +4,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.showmenu = false;
 }
+<script>
+    $(function () {
+        var serv = $.connection.cvorHub;
+        $.connection.hub.start().done(function () {
+            serv.server.osvjezi_screen_tip();
+            console.log('nene ');
+        });
+
+    });
+</script>
+
+
 
 <h2>IzdajTiket</h2>
 <h3>Redni broj tiketa: @Model.redniBroj</h3>
