@@ -13,24 +13,35 @@
     <link href="~/css/metro-bootstrap-responsive.css" rel="stylesheet">
     <script src="~/Scripts/metro.min.js"></script>
 </head>
-<body class="metro">
-    @if (ViewBag.showmenu == true)
-    {
-        <nav class="horizontal-menu">
-            <ul>
-                @if (Request.IsAuthenticated)
-                {
-                    <li><div class="subheader-secondary"><strong>@Html.Encode(User.Identity.Name)</strong></div></li>
-                    <li><a href="@Url.Action("Logout", "HomeUser")">Odjavi se</a></li>
-                }
-                else
-                {
-                    <li><a href="@Url.Action("Login", "HomeUser")">Prijavi se</a></li>
-                }
-            </ul>
-        </nav>
-    }
-    
-    @RenderBody()
+<body class="metro" style="background-color: #181818">
+    <div class="container bg-white">
+            @if (ViewBag.showmenu == true)
+            {
+                <nav class="horizontal-menu">
+                    <ul>
+                        @if (Request.IsAuthenticated)
+                        {
+                            <li><div class="subheader-secondary"><strong>@Html.Encode(User.Identity.Name)</strong></div></li>
+                            <li><a href="@Url.Action("Logout", "HomeUser")">Odjavi se</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("Login", "HomeUser")">Prijavi se</a></li>
+                        }
+                    </ul>
+                </nav>
+            }
+
+        @RenderBody()
+
+        <footer>
+            <div class="bottom-menu-wrapper">
+                <ul class="horizontal-menu compact">
+                    <li>&copy; 2014 Metro UI CSS</li>
+                    <li>PowerRangers</li>
+                </ul>
+            </div>
+        </footer>
+    </div>
 </body>
 </html>

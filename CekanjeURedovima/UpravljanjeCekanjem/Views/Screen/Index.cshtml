@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.Dictionary<string, int>
+﻿@model System.Collections.Generic.Dictionary<string, Tuple<int, double>>
 @{
     ViewBag.Title = "Screen";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -47,11 +47,15 @@ function checkTime(i) {
                     console.log('update'+red);
                     $("#" + red).text(value);
                 };
+                serv.client.updatevrijeme = function (red, value) {
+                    console.log('#"vrijeme.' + red +" "+ value);
+                    $("#vrijeme\\." + red).text(value);
+                };
             });
         </script>
 </body>
-@foreach (var entry in Model)
+@foreach (KeyValuePair<string, Tuple<int, double>> entry in Model)
 {
-    <p>Red: <span id="@entry.Key key">@entry.Key</span> Sljedeći broj: <span id="@entry.Key">@entry.Value</span></p>
+    <p>Red: <span id="@entry.Key key">@entry.Key</span> Sljedeći broj: <span id="@entry.Key">@entry.Value.Item1</span> <span id="vrijeme.@entry.Key">@entry.Value.Item2</span> sekundi</p>
 }
 

@@ -42,4 +42,31 @@ public static class Global
         System.Diagnostics.Debug.WriteLine("zadnje osvj " + Global.rjecnik.Keys);
         Global.semafor.Release();
     }
+
+    public static double get_avg_vrijeme_cekanja(string tip)
+    {
+        var posluzeni =
+                from x in db.Tiket
+                where x.tip.Equals(tip) && x.vrijemeDolaska != null 
+                && x.vrijemeIzdavanja.Day == DateTime.Now.Day
+                && x.vrijemeIzdavanja.Month == DateTime.Now.Month
+                && x.vrijemeIzdavanja.Year == DateTime.Now.Year
+                select x;
+
+        if (posluzeni.Any())//ocekivano vrijeme se treba moci prikazati i na /screen/, bolje da se izracunava tu a drugdje dohvaća
+        {
+            TimeSpan duration;
+            double total = 0;
+            foreach (var a in posluzeni)
+            {
+                duration = (DateTime)a.vrijemeDolaska - a.vrijemeIzdavanja;
+                total += duration.TotalSeconds;
+            }
+            return (total / posluzeni.Count());
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }

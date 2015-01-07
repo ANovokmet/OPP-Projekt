@@ -60,6 +60,13 @@ namespace UpravljanjeCekanjem
             
         }
 
+        public void Osvjezi_screen_vrijeme(string red)
+        {
+            System.Diagnostics.Debug.WriteLine("update vrijeme za "+red);
+            double value = Global.get_avg_vrijeme_cekanja(red);
+            Clients.All.updatevrijeme(red, value.ToString());
+        }
+
         public void Osvjezi_tipove()
         {
             
@@ -147,6 +154,7 @@ namespace UpravljanjeCekanjem
                 {
                     tiket = tiketi.First();
                     tiket.vrijemeDolaska = DateTime.Now;
+                    Osvjezi_screen_vrijeme(tiket.tip);
                 }
                 db.SaveChanges();
             }

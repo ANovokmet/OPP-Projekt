@@ -18,7 +18,7 @@ namespace UpravljanjeCekanjem.Controllers
         {
             ViewBag.broj = "BROJ KOJI FLASHA";
 
-            Dictionary<string, int> redovi = new Dictionary<string,int>();
+            Dictionary<string, Tuple<int, double>> redovi = new Dictionary<string, Tuple<int, double>>();
 
             using(var db = new DataBaseEntities())
             {
@@ -52,7 +52,7 @@ namespace UpravljanjeCekanjem.Controllers
                     }
 
                     
-                    redovi.Add(a.tip, tiket);//trenutni broj
+                    redovi.Add(a.tip, new Tuple<int, double>(tiket,Global.get_avg_vrijeme_cekanja(a.tip)));//trenutni broj
                     
                 }
             }

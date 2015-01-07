@@ -12,29 +12,30 @@
         serv.client.dohvati_tipove = function (listatipova, listaopisa) {
             $("#gumbi").html('<span id="gumbi"></span>');
             for (var i = 0, l = listatipova.length; i < l; i++) {
-                $("#gumbi").append('<div class="tile double bg-darkCyan" onclick="location.href=\'../HomeClient/IzdajTiket?tip=' + listatipova[i] + '\'"><div class="tile-status"><span class="name">' + listatipova[i] + ' : ' + listaopisa[i] + '</span></div></div>');
+                $("#gumbi").append('<div class="tile double bg-darkCyan" onclick="location.href=\'../HomeClient/IzdajTiket?tip=' + listatipova[i] + '\'"><div class="tile-status"><span class="name"><h1 class="fg-white">' + listatipova[i] + '</h1>' + listaopisa[i] + '</span></div></div>');
             }
 
         };
     });
 </script>
-<div class="container tile-area-dark">
-    
-    <div class="tile-area tile-area-dark">
-        <h1 class="fg-white">Molimo izaberite opciju za koju želite uslugu.</h1>
-
-        <span id="gumbi">
-            @foreach (var tip in Model)
-            {
-                <div class="tile double bg-darkCyan" onclick="location.href = '@Url.Action("IzdajTiket", new { tip = tip.tip })'">
-                    <div class="tile-status">
-                        <span class="name"><h1 class="fg-white">@tip.tip</h1>@tip.opis</span>
+<div class="main-content clearfix">
+    <h1 class="fg-dark">Molimo izaberite opciju za koju želite uslugu.</h1>
+    <div class="tile-area">
+        
+        <div class="tile-group"  style="width:100%"  align="center">
+            
+            <span id="gumbi">
+                @foreach (var tip in Model)
+                {
+                    <div class="tile double bg-darkCyan" onclick="location.href = '@Url.Action("IzdajTiket", new { tip = tip.tip })'">
+                        <div class="tile-status">
+                            <span class="name"><h1 class="fg-white">@tip.tip</h1>@tip.opis</span>
+                        </div>
                     </div>
-                </div>
-            }
-        </span>
+                }
+            </span>
+        </div>
+
     </div>
-</div>
-<div class="container tile-area-dark">
-    PowerRangers
+
 </div>

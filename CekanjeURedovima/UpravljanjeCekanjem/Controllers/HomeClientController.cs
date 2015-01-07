@@ -66,30 +66,10 @@ namespace UpravljanjeCekanjem.Controllers
             tiket.tip = tip;
             tiket.vrijemeIzdavanja = DateTime.Now;
 
-            var posluzeni =
-                from x in db.Tiket
-                where x.tip.Equals(tip) && x.vrijemeDolaska != null //možda u bazi dodat CHECK dolazak>izdavanje
-                && x.vrijemeIzdavanja.Day == DateTime.Now.Day
-                && x.vrijemeIzdavanja.Month == DateTime.Now.Month
-                && x.vrijemeIzdavanja.Year == DateTime.Now.Year
-                select x;
+            double vrijemecekanja = Global.get_avg_vrijeme_cekanja(tip);
+            ViewBag.ocekivano = DateTime.Now.AddSeconds(vrijemecekanja);
 
-            if (posluzeni.Any())//ocekivano vrijeme se treba moci prikazati i na /screen/, bolje da se izracunava negdje drugdje a tu dohvaca
-            {
-                TimeSpan duration;
-                double total = 0;
-                foreach (var a in posluzeni)
-                {
-                    duration = (DateTime)a.vrijemeDolaska - a.vrijemeIzdavanja;
-                    total += duration.TotalSeconds;
-                }
-                ViewBag.ocekivano = DateTime.Now.AddSeconds(total / posluzeni.Count());
-            }
-            else
-            {
-                ViewBag.ocekivano = DateTime.Now;
-            }
-
+            
             var neposluzeni =
                 from x in db.Tiket
                 where x.tip.Equals(tip) &&
@@ -107,7 +87,8 @@ namespace UpravljanjeCekanjem.Controllers
             else
             {
                 ViewBag.brojuredu = 1;
-                tiket.vrijemeDolaska = tiket.vrijemeIzdavanja;
+                tiket.vrijemeDolaska = tiket.vrijemeIzdavanja;//NE NE NE!
+            
             }
 
             try
