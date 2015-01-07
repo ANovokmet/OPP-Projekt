@@ -33,9 +33,6 @@ namespace UpravljanjeCekanjem.Controllers
             timespan.Add(new SelectListItem { Text = "Mjesečno", Value = "mjesečno" });
             ViewBag.IzvjestajRaspon = timespan;
 
-
-
-
             Global.refresh_dataset();
             return View(tipovi);
         }

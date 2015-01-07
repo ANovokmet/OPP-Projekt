@@ -58,10 +58,7 @@ C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\Upravljanje
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Newtonsoft.Json.dll
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Owin.dll
-C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Net.Http.Formatting.dll
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.Helpers.dll
-C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.Http.dll
-C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.Http.WebHost.dll
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.Mvc.dll
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.Razor.dll
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.WebPages.Deployment.dll
@@ -76,10 +73,7 @@ C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\Upravljanje
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.Owin.Security.xml
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Microsoft.Owin.Security.Cookies.xml
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\Newtonsoft.Json.xml
-C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Net.Http.Formatting.xml
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.Helpers.xml
-C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.Http.xml
-C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.Http.WebHost.xml
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.Mvc.xml
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.Razor.xml
 C:\Users\Ante\documents\visual studio 2013\Projects\CekanjeURedovima\UpravljanjeCekanjem\bin\System.Web.WebPages.xml

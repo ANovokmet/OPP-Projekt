@@ -2,27 +2,28 @@
 @{
     ViewBag.title = "Nadzornik";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.showmenu = true;
 }
+<div class="ribbed-darkPink">
+    <div class="container fg-dark">
+        <h2>Prostor za nadzornika</h2>
+        <p>Parametri: </p>
+        <form>
+            Velicina teksta:<input type="text" name="velteksta" id="velteksta">px<br />
+            Boja teksta:<input class="color" id="bojateksta" /><br />
+        </form>
+        <button type="button" id="refresh">Refreshaj Screen</button>
+    </div>
 
-<div class="container fg-dark">
-    <h2>Prostor za nadzornika</h2>
-    <p>Parametri: </p>
-    <form>
-        Velicina teksta:<input type="text" name="velteksta" id="velteksta">px<br />
-        Boja teksta:<input class="color" id="bojateksta" /><br />
-    </form>
-    <button type="button" id="refresh">Refreshaj Screen</button>
+    <div class="container fg-dark">
+        @using (Html.BeginForm("Report", "Manager", FormMethod.Get))
+        {
+            @Html.DropDownList("IzvjestajTip")
+            @Html.DropDownList("IzvjestajRaspon")
+            <input type="submit" value="Submit" />
+        }
+    </div>
 </div>
-
-<div class="container fg-dark">
-    @using (Html.BeginForm("Report", "Manager", FormMethod.Get))
-    {
-        @Html.DropDownList("IzvjestajTip")
-        @Html.DropDownList("IzvjestajRaspon")
-        <input type="submit" value="Submit" />
-    }
-</div>
-
 
 
     <div class="container fg-dark">

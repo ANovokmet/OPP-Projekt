@@ -16,6 +16,7 @@ namespace UpravljanjeCekanjem
             {
                 filterContext.Result = new RedirectToRouteResult(new
                 RouteValueDictionary(new { controller = "HomeUser", action = "Index" }));
+                filterContext.Controller.TempData.Add("RedirectReason", "Unauthorized");
             }
         }
     }

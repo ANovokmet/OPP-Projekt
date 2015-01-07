@@ -186,6 +186,8 @@
     <Content Include="Views\Manager\Add.cshtml" />
     <Content Include="Views\Manager\Edit.cshtml" />
     <Content Include="Views\HomeClient\IzdajTiket.cshtml" />
+    <Content Include="Views\Manager\Delete.cshtml" />
+    <Content Include="Views\Manager\Report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

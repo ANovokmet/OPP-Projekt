@@ -1,9 +1,17 @@
 ﻿@{
     ViewBag.title = "Stranica za korisnike";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    //ViewBag.showmenu = true;
 }
 <div class="tile-area tile-area-dark">
-    <h1 class="fg-white">Dobrodošli.</h1>
+    @if (TempData["RedirectReason"] == "Unauthorized")
+    {
+        <h1 class="fg-white">Pristup toj stranici vam nije dopušten.</h1>
+    }
+    else
+    {
+        <h1 class="fg-white">Dobrodošli.</h1>
+    }
     <p class="readable-text fg-white">Prijavljeni ste kao @ViewBag.Role <strong>@ViewBag.UserName</strong></p>
     <button class="large" onclick="location.href = '../HomeUser/Logout'">Odjavi se.</button>
     @if (ViewBag.Role.Equals("nadzornik"))

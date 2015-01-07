@@ -88,7 +88,7 @@ namespace UpravljanjeCekanjem.Controllers
             var authManager = ctx.Authentication;
 
             authManager.SignOut("ApplicationCookie");
-            return RedirectToAction("index", "HomeUser");
+            return RedirectToAction("Login", "HomeUser");
         }
 
     }

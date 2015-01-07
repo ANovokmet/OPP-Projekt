@@ -14,22 +14,23 @@
     <script src="~/Scripts/metro.min.js"></script>
 </head>
 <body class="metro">
-    @if(ViewBag.showmenu == true)
+    @if (ViewBag.showmenu == true)
     {
-    <nav class="horizontal-menu">
-        <ul>
-            @if (Request.IsAuthenticated)
-            {
-                <li><div class="subheader-secondary"><strong>@Html.Encode(User.Identity.Name)</strong></div></li>
-                <li><a href="@Url.Action("Logout", "HomeUser")">Odjavi se</a></li>
-            }
-            else
-            {
-                <li><a href="@Url.Action("Login", "HomeUser")">Prijavi se</a></li>
-            }
-        </ul>
-    </nav>
+        <nav class="horizontal-menu">
+            <ul>
+                @if (Request.IsAuthenticated)
+                {
+                    <li><div class="subheader-secondary"><strong>@Html.Encode(User.Identity.Name)</strong></div></li>
+                    <li><a href="@Url.Action("Logout", "HomeUser")">Odjavi se</a></li>
+                }
+                else
+                {
+                    <li><a href="@Url.Action("Login", "HomeUser")">Prijavi se</a></li>
+                }
+            </ul>
+        </nav>
     }
+    
     @RenderBody()
 </body>
 </html>

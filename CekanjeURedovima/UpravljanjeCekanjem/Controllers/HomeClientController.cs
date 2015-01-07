@@ -20,7 +20,6 @@ namespace UpravljanjeCekanjem.Controllers
                             where c.ponudjena == true
                             select c;
 
-
             Global.refresh_dataset();
             System.Diagnostics.Debug.WriteLine("zadnje osvj "+Global.rjecnik.Keys);
             return View(tipovi);
