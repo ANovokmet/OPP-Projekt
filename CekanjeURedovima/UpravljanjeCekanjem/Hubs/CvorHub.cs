@@ -106,7 +106,7 @@ namespace UpravljanjeCekanjem
 
         public void reset_brojaca(String tip)
         {
-            //System.Diagnostics.Debug.WriteLine(""+tip);
+            System.Diagnostics.Debug.WriteLine("cvor"+tip);
             Global.semafor.WaitOne();
             Global.rjecnik[tip] = 1;
             Global.semafor.Release();

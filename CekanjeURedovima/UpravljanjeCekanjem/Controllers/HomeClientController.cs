@@ -20,30 +20,8 @@ namespace UpravljanjeCekanjem.Controllers
                             where c.ponudjena == true
                             select c;
 
-            List<String> redovi = (from x in db.TipTiketa
-                        select x.tip).ToList<String>();
-            int broj_redova = redovi.Count;
-            int broj_u_rj = Global.rjecnik.Count;
-            if (broj_u_rj < broj_redova)
-            {
-                foreach (String a in redovi)
-                {
-                    if (!Global.rjecnik.ContainsKey(a))
-                    {
-                        Global.rjecnik.Add(a, 1);
-                    }
-                }
-            }
-            else if (broj_u_rj > broj_redova)
-            {
-                foreach (string key in Global.rjecnik.Keys)
-                {
-                    if (!redovi.Contains(key))
-                    {
-                        Global.rjecnik.Remove(key);
-                    }
-                }
-            }
+
+            Global.refresh_dataset();
             System.Diagnostics.Debug.WriteLine("zadnje osvj "+Global.rjecnik.Keys);
             return View(tipovi);
         }
