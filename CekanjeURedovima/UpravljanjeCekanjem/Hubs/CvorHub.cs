@@ -22,6 +22,20 @@ namespace UpravljanjeCekanjem
             Clients.All.flash(tip);
         }
 
+        public void prikazi_vrijeme(bool show)
+        {
+            Osvjezi_postavku(2, show == true ? "1" : "0");
+            Clients.All.showvrijeme(show);
+        }
+
+        public void prikazi_izdane(bool show)
+        {
+            Osvjezi_postavku(3, show == true ? "1" : "0");
+            Clients.All.showizdani(show);
+        }
+
+
+
         public void Osvjezi_screen_tip()
         {
             using (var db = new DataBaseEntities())
@@ -65,6 +79,21 @@ namespace UpravljanjeCekanjem
             System.Diagnostics.Debug.WriteLine("update vrijeme za "+red);
             double value = Global.get_avg_vrijeme_cekanja(red);
             Clients.All.updatevrijeme(red, value.ToString());
+        }
+
+        public void osvjezi_izdane(string red)
+        {
+            using (var db = new DataBaseEntities())
+            {
+                var count = (from t in db.Tiket
+                             where t.vrijemeIzdavanja.Day == DateTime.Now.Day
+                             && t.vrijemeIzdavanja.Month == DateTime.Now.Month
+                             && t.vrijemeIzdavanja.Year == DateTime.Now.Year
+                             && red.Equals(t.tip)
+                             orderby t.vrijemeIzdavanja descending
+                             select t).Count();
+                Clients.All.refreshizdani(red, count.ToString());
+            }
         }
 
         public void Osvjezi_tipove()

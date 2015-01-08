@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.Dictionary<string, Tuple<int, double>>
+﻿@model System.Collections.Generic.Dictionary<string, Tuple<int, double, int>>
 @{
     ViewBag.Title = "Screen";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -51,11 +51,63 @@ function checkTime(i) {
                     console.log('#"vrijeme.' + red +" "+ value);
                     $("#vrijeme\\." + red).text(value);
                 };
+                serv.client.updateizdani = function (red, value) {
+                    console.log('#"vrijeme.' + red + " " + value);
+                    $("#izdani\\." + red).text(value);
+                };
+                serv.client.showvrijeme = function (show) {
+                    console.log('vrijemeshow');
+                    if (show) {
+                        console.log('true');
+                        $('.vrijeme').show();
+                    } else {
+                        console.log('false');
+                        $('.vrijeme').hide();
+                    }
+                };
+                serv.client.showizdani = function (show) {
+                    console.log('izdanishow');
+                    if (show) {
+                        console.log("true");
+                        $('.izdani').show();
+                    } else {
+                        $('.izdani').hide();
+                    }
+                };
             });
         </script>
 </body>
-@foreach (KeyValuePair<string, Tuple<int, double>> entry in Model)
+@foreach (KeyValuePair<string, Tuple<int, double, int>> entry in Model)
 {
-    <p>Red: <span id="@entry.Key key">@entry.Key</span> Sljedeći broj: <span id="@entry.Key">@entry.Value.Item1</span> <span id="vrijeme.@entry.Key">@entry.Value.Item2</span> sekundi</p>
+    <p>
+        Red: <span id="@entry.Key key">@entry.Key</span> Sljedeći broj: <span id="@entry.Key">@entry.Value.Item1</span>
+        
+        @if (ViewBag.showvrijeme == "1")
+        {
+            <span class="vrijeme">
+            <span id="vrijeme.@entry.Key">@entry.Value.Item2</span>
+            sekundi</span>
+        }
+        else
+        {
+            <span class="vrijeme" hidden>
+            <span id="vrijeme.@entry.Key">@entry.Value.Item2</span>
+            sekundi</span>
+        }
+        
+        
+        @if (ViewBag.showizdani == "1")
+        {
+            <span class="izdani">Danas izdano
+            <span id="izdani.@entry.Key">@entry.Value.Item3</span>
+            tiketa.</span>
+        }
+        else
+        {
+            <span class="izdani" hidden>Danas izdano
+            <span id="izdani.@entry.Key">@entry.Value.Item3</span>
+            tiketa.</span>
+        }
+</p>
 }
 

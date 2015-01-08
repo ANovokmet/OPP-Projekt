@@ -18,7 +18,7 @@ namespace UpravljanjeCekanjem.Controllers
         {
             ViewBag.broj = "BROJ KOJI FLASHA";
 
-            Dictionary<string, Tuple<int, double>> redovi = new Dictionary<string, Tuple<int, double>>();
+            Dictionary<string, Tuple<int, double, int>> redovi = new Dictionary<string, Tuple<int, double, int>>();
 
             using(var db = new DataBaseEntities())
             {
@@ -29,6 +29,10 @@ namespace UpravljanjeCekanjem.Controllers
                 ViewBag.vel = postavke.vrijednost;
                 postavke = db.Postavke.Where(s => s.Identifikator.Equals(1)).FirstOrDefault<Postavke>();
                 ViewBag.boja = postavke.vrijednost;
+                postavke = db.Postavke.Where(s => s.Identifikator.Equals(2)).FirstOrDefault<Postavke>();
+                ViewBag.showvrijeme = postavke.vrijednost;
+                postavke = db.Postavke.Where(s => s.Identifikator.Equals(3)).FirstOrDefault<Postavke>();
+                ViewBag.showizdani = postavke.vrijednost;
 
                 foreach (TipTiketa a in tipovi)
                 {
@@ -42,6 +46,13 @@ namespace UpravljanjeCekanjem.Controllers
                                  orderby t.vrijemeIzdavanja descending
                                  select t;
 
+                    var count = (from t in db.Tiket where
+                                 t.vrijemeIzdavanja.Day == DateTime.Now.Day
+                                 && t.vrijemeIzdavanja.Month == DateTime.Now.Month
+                                 && t.vrijemeIzdavanja.Year == DateTime.Now.Year
+                                 && a.tip.Equals(t.tip)
+                                 select t).Count();
+
                     int tiket = 0;
                     if (tiketi.Any())
                     {
@@ -50,9 +61,9 @@ namespace UpravljanjeCekanjem.Controllers
                             tiket = tiketi.First().redniBroj;
                         }
                     }
-
+                    tiketi.Count();
                     
-                    redovi.Add(a.tip, new Tuple<int, double>(tiket,Global.get_avg_vrijeme_cekanja(a.tip)));//trenutni broj
+                    redovi.Add(a.tip, new Tuple<int, double, int>(tiket, Global.get_avg_vrijeme_cekanja(a.tip), count ));//trenutni broj
                     
                 }
             }

@@ -9,13 +9,18 @@
         <div class="tile-content">
             <div class="panel">
                 <div class="panel-header bg-darkRed fg-white">Parametri</div>
-                <div class="panel-content fg-dark nlp nrp">
+                <div class="panel-content fg-dark">
                     <form>
                         Velicina teksta:<input type="text" name="velteksta" id="velteksta">px<br />
                         Boja teksta:<input class="color" id="bojateksta" /><br />
                     </form>
                     <button type="button" id="refresh">Refreshaj Screen</button>
+                    <button type="button" id="true">show vrijeme</button>
+                    <button type="button" id="false">hide vrijeme</button>
+                    <button type="button" id="truei">show izdane</button>
+                    <button type="button" id="falsei">hide izdane</button>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -90,6 +95,19 @@
                     $('#bojateksta').val(b);
                 }
             });
+            $('#true').click(function () {
+                serv.server.prikazi_vrijeme(true);
+            });
+            $('#false').click(function () {
+                serv.server.prikazi_vrijeme(false);
+            });
+            $('#truei').click(function () {
+                serv.server.prikazi_izdane(true);
+            });
+            $('#falsei').click(function () {
+                serv.server.prikazi_izdane(false);
+            });
+
             $(document).ready(function () {
                 serv.server.osvjezi_tipove();
             });
