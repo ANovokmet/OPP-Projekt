@@ -16,6 +16,7 @@ namespace UpravljanjeCekanjem
             });
             app.MapSignalR();
             Global.refresh_dataset();
+            Global.set_auto_reset();
         }
     }
 }

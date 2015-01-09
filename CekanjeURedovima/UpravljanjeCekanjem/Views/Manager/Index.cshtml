@@ -13,6 +13,8 @@
                     <form>
                         Velicina teksta:<input type="text" name="velteksta" id="velteksta">px<br />
                         Boja teksta:<input class="color" id="bojateksta" /><br />
+                        Vrijeme reseta sustava: <input type="time" id="reset_sustava" />
+                        <button type="button" id="reset_sustava2">Podesi</button><br/>
                     </form>
                     <button type="button" id="refresh">Refreshaj Screen</button>
                     <button type="button" id="true">show vrijeme</button>
@@ -93,6 +95,14 @@
                     serv.server.pokreni_refresh(a, b);
                     $('#velteksta').val(a);
                     $('#bojateksta').val(b);
+                }
+            });
+            $('#reset_sustava2').click(function () {
+                if($('#reset_sustava').val()==='')
+                    alert('Niste unijeli vrijeme');
+                else{
+                    serv.server.postavi_vrijeme_reseta($('#reset_sustava').val());
+                    alert('Vrijeme postavljeno');
                 }
             });
             $('#true').click(function () {

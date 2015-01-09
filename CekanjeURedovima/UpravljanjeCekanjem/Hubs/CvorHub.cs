@@ -188,5 +188,25 @@ namespace UpravljanjeCekanjem
                 db.SaveChanges();
             }
         }
+        public void postavi_vrijeme_reseta(String vrijeme)
+        {
+            String[] vremena = vrijeme.Split(':');
+            int novo_vrijeme = Convert.ToInt32(vremena[0]) * 60 * 60 + Convert.ToInt32(vremena[1]) * 60;
+            using (var db = new DataBaseEntities())
+            {
+                var postavka =
+                    from x in db.Postavke
+                    where x.naziv.Equals("autoreset")
+                    select x;
+                var konkretna = postavka.FirstOrDefault();
+                konkretna.vrijednost = ""+novo_vrijeme;
+                db.Postavke.Attach(konkretna);
+                var ulaz = db.Entry(konkretna);
+                ulaz.Property(e => e.vrijednost).IsModified = true;
+                db.SaveChanges();
+            }
+            Global.set_auto_reset();
+            System.Diagnostics.Debug.WriteLine("vrijeme reseta brojaca "+novo_vrijeme);
+        }
     }
 }
