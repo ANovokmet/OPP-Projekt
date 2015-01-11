@@ -1,11 +1,12 @@
 ﻿@{
     ViewBag.Title = "Službenik";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.showmenu = true;
 }
 
 <h2>Prostor za službenika</h2>
 <p>
-    Šalter: @ViewData["šalter"]
+    <h3>Šalter: @ViewData["šalter"]</h3>
     <br />
     @Html.DropDownList("tipovi")
     <button type="button" id="šalter" data-user=@User.Identity.Name>Promijeni šalter</button>
@@ -59,7 +60,7 @@
         </script>
 
 </p><br/>
-<button type="button" id="flash">Flashaj broj</button>
+<button type="button" id="flash">Zabljesni brojem!</button>
 <script>
     $(function () {
         var serv = $.connection.cvorHub;

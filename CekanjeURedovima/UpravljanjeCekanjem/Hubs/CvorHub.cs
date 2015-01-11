@@ -92,7 +92,7 @@ namespace UpravljanjeCekanjem
                              && red.Equals(t.tip)
                              orderby t.vrijemeIzdavanja descending
                              select t).Count();
-                Clients.All.refreshizdani(red, count.ToString());
+                Clients.All.updateizdani(red, count.ToString());
             }
         }
 

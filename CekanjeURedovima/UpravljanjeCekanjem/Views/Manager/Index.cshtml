@@ -5,22 +5,26 @@
     ViewBag.showmenu = true;
 }
 <div class="tile-group no-margin no-padding clearfix" style="width: 100%">
-    <div class="tile triple double-vertical ol-transparent bg-white">
+    <div class="tile triple triple-vertical ol-transparent bg-white">
         <div class="tile-content">
             <div class="panel">
-                <div class="panel-header bg-darkRed fg-white">Parametri</div>
+                <div class="panel-header bg-darkRed fg-white">Parametri aplikacije</div>
                 <div class="panel-content fg-dark">
                     <form>
                         Velicina teksta:<input type="text" name="velteksta" id="velteksta">px<br />
                         Boja teksta:<input class="color" id="bojateksta" /><br />
-                        Vrijeme reseta sustava: <input type="time" id="reset_sustava" />
+                        <button type="button" id="refresh">Refreshaj Screen</button>
+                        <br>Vrijeme reseta sustava: <input type="time" id="reset_sustava" />
                         <button type="button" id="reset_sustava2">Podesi</button><br/>
                     </form>
-                    <button type="button" id="refresh">Refreshaj Screen</button>
-                    <button type="button" id="true">show vrijeme</button>
-                    <button type="button" id="false">hide vrijeme</button>
-                    <button type="button" id="truei">show izdane</button>
-                    <button type="button" id="falsei">hide izdane</button>
+                    
+
+                    <p>Očekivana vremena čekanja:<button type="button" id="true">Prikaži</button>
+                    <button type="button" id="false">Sakrij</button></p>
+
+                    <p>Brojevi izdanih tiketa:<button type="button" id="truei">Prikaži</button>
+                    <button type="button" id="falsei">Sakrij</button></p>
+                    
                 </div>
                 
             </div>

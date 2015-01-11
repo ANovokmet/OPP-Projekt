@@ -149,7 +149,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\CvorHub.cs" />
-    <Compile Include="Controllers\Global.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Models\Izvjestaj.cs" />
     <Compile Include="Models\Korisnik.cs" />
     <Compile Include="Models\Postavke.cs" />

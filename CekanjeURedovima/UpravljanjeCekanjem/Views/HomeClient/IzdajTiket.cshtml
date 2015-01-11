@@ -8,9 +8,10 @@
     $(function () {
         var serv = $.connection.cvorHub;
         $.connection.hub.start().done(function () {
-            serv.server.osvjezi_screen_tip();
-            serv.server.osvjezi_izdane(@Model.tip)
             console.log('nene ');
+            serv.server.osvjezi_screen_tip();
+            serv.server.osvjezi_izdane("@Model.tip")
+            
         });
 
     });

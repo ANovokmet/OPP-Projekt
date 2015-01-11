@@ -16,8 +16,6 @@ namespace UpravljanjeCekanjem.Controllers
 
         public ActionResult Index()//u viewu treba hrpa jquerija zbog signalR i realtime, ovo je za probu, prebacit u cvorhub
         {
-            ViewBag.broj = "BROJ KOJI FLASHA";
-
             Dictionary<string, Tuple<int, double, int>> redovi = new Dictionary<string, Tuple<int, double, int>>();
 
             using(var db = new DataBaseEntities())
@@ -26,13 +24,16 @@ namespace UpravljanjeCekanjem.Controllers
                              select c;
 
                 var postavke = db.Postavke.Where(s => s.Identifikator.Equals(0)).FirstOrDefault<Postavke>();
-                ViewBag.vel = postavke.vrijednost;
+                ViewBag.vel = postavke.vrijednost+"px";
+                
                 postavke = db.Postavke.Where(s => s.Identifikator.Equals(1)).FirstOrDefault<Postavke>();
                 ViewBag.boja = postavke.vrijednost;
                 postavke = db.Postavke.Where(s => s.Identifikator.Equals(2)).FirstOrDefault<Postavke>();
                 ViewBag.showvrijeme = postavke.vrijednost;
                 postavke = db.Postavke.Where(s => s.Identifikator.Equals(3)).FirstOrDefault<Postavke>();
                 ViewBag.showizdani = postavke.vrijednost;
+
+                
 
                 foreach (TipTiketa a in tipovi)
                 {

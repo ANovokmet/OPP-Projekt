@@ -18,7 +18,7 @@ function startTime() {
 }
 
 function checkTime(i) {
-    if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
+    if (i<10) {i = "0" + i}; 
     return i;
 }
 </script>
@@ -26,17 +26,17 @@ function checkTime(i) {
 <body onload="startTime()">
     <h2>Screen</h2>
     <p id="broj"></p>
-    <p id="sat" style="font-size:@ViewBag.vel;color:@ViewBag.boja"></p>
-    <p id="broj2">@ViewBag.broj</p>
+    <p id="sat" style="font-size:@ViewBag.vel;color:#@ViewBag.boja"></p>
         <script>
             $(function () {
                 var serv = $.connection.cvorHub;
                 $.connection.hub.start();
                 serv.client.pokreni = function (vel, boja) {
                     console.log('pozvano');
-                    $('#broj').html(vel + ' ' + boja);
-                    $('#sat').css('font-size', vel);
-                    $('#sat').css('color', boja);
+                    $("[id=informacije]").css('font-size', vel);
+                    $("[id=informacije]").css('color', boja);
+                    $("#sat").css('font-size', vel);
+                    $("#sat").css('color', boja);
                     //location.reload(true);
                 };
                 serv.client.flash = function (tip) {
@@ -79,35 +79,46 @@ function checkTime(i) {
 </body>
 @foreach (KeyValuePair<string, Tuple<int, double, int>> entry in Model)
 {
-    <p>
-        Red: <span id="@entry.Key key">@entry.Key</span> Sljedeći broj: <span id="@entry.Key">@entry.Value.Item1</span>
-        
+    <p id="informacije" style="text-align:center;font-size:@ViewBag.vel;color:#@ViewBag.boja">
+        Red: <span id="@entry.Key key">@entry.Key</span>
+    </p>
+    <p id="informacije" style="text-align:center;font-size:@ViewBag.vel;color:#@ViewBag.boja">
+        Sljedeći broj: <span id="@entry.Key">@entry.Value.Item1</span>
+    </p>
+    <p id="informacije" style="text-align:center;font-size:@ViewBag.vel;color:#@ViewBag.boja">
         @if (ViewBag.showvrijeme == "1")
         {
             <span class="vrijeme">
-            <span id="vrijeme.@entry.Key">@entry.Value.Item2</span>
-            sekundi</span>
+                <span id="vrijeme.@entry.Key">@entry.Value.Item2</span>
+                sekundi
+            </span>
         }
         else
         {
             <span class="vrijeme" hidden>
-            <span id="vrijeme.@entry.Key">@entry.Value.Item2</span>
-            sekundi</span>
+                <span id="vrijeme.@entry.Key">@entry.Value.Item2</span>
+                sekundi
+            </span>
         }
-        
-        
+    </p>
+    <p id="informacije" style="text-align:center;font-size:@ViewBag.vel;color:#@ViewBag.boja">
         @if (ViewBag.showizdani == "1")
         {
-            <span class="izdani">Danas izdano
-            <span id="izdani.@entry.Key">@entry.Value.Item3</span>
-            tiketa.</span>
+            <span class="izdani">
+                Danas izdano
+                <span id="izdani.@entry.Key">@entry.Value.Item3</span>
+                tiketa.
+            </span>
         }
         else
         {
-            <span class="izdani" hidden>Danas izdano
-            <span id="izdani.@entry.Key">@entry.Value.Item3</span>
-            tiketa.</span>
+            <span class="izdani" hidden>
+                Danas izdano
+                <span id="izdani.@entry.Key">@entry.Value.Item3</span>
+                tiketa.
+            </span>
         }
-</p>
+    </p>
+    <br>
 }
 

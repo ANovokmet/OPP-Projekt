@@ -23,6 +23,8 @@
                         {
                             <li><div class="subheader-secondary"><strong>@Html.Encode(User.Identity.Name)</strong></div></li>
                             <li><a href="@Url.Action("Logout", "HomeUser")">Odjavi se</a></li>
+                            <li><a href="@Url.Action("Index", "HomeClient")">HomeClient</a></li>
+                            <li><a href="@Url.Action("Index", "Screen")">Screen</a></li>
                         }
                         else
                         {

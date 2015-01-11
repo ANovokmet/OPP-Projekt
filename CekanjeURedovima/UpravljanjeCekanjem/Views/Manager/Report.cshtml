@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<UpravljanjeCekanjem.Models.Izvjestaj>
 @{
     ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.showmenu = false;
 }
 
 <h2>Izvještaj za red @ViewBag.tip za @ViewBag.raspon izvještajno razdoblje</h2>
