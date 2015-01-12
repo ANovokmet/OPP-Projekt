@@ -4,132 +4,147 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.showmenu = true;
 }
-<div class="tile-group no-margin no-padding clearfix" style="width: 100%">
-    <div class="tile triple triple-vertical ol-transparent bg-white">
-        <div class="tile-content">
-            <div class="panel">
-                <div class="panel-header bg-darkRed fg-white">Parametri aplikacije</div>
-                <div class="panel-content fg-dark">
-                    <form>
-                        Velicina teksta:<input type="text" name="velteksta" id="velteksta">px<br />
-                        Boja teksta:<input class="color" id="bojateksta" /><br />
-                        <button type="button" id="refresh">Refreshaj Screen</button>
-                        <br>Vrijeme reseta sustava: <input type="time" id="reset_sustava" />
-                        <button type="button" id="reset_sustava2">Podesi</button><br/>
-                    </form>
-                    
+<div class="grid">
+    <div class="row">
+        <div class="span6">
+        <div class="tile-group no-margin no-padding clearfix" style="width: 100%">
+            <div class="tile triple triple-vertical ol-transparent bg-white">
+                <div class="tile-content">
+                    <div class="panel">
+                        <div class="panel-header bg-darkRed fg-white">Parametri aplikacije</div>
+                        <div class="panel-content fg-dark">
+                            <form>
+                                <p>Velicina teksta: (px)<input type="text" name="velteksta" id="velteksta" style="float:right"></p><br/>
+                                <p>Boja teksta:<input class="color" id="bojateksta" style="float:right" /></p><br />
+                                <button type="button" id="refresh">Refreshaj Screen</button>
+                                <br/>
+                                <hr/>
+                                <br>Vrijeme reseta sustava: <input type="time" id="reset_sustava" />
+                                <button type="button" id="reset_sustava2" style="float:right">Podesi</button><br />
+                            </form>
 
-                    <p>Očekivana vremena čekanja:<button type="button" id="true">Prikaži</button>
-                    <button type="button" id="false">Sakrij</button></p>
 
-                    <p>Brojevi izdanih tiketa:<button type="button" id="truei">Prikaži</button>
-                    <button type="button" id="falsei">Sakrij</button></p>
-                    
-                </div>
-                
-            </div>
-        </div>
-    </div>
-    <div class="tile triple double-vertical ol-transparent bg-white">
-        <div class="tile-content">
-            <div class="panel">
-                <div class="panel-header bg-pink fg-white">Generiranje izvještaja za razdoblje</div>
-                <div class="panel-content fg-dark nlp nrp">
-                    @using (Html.BeginForm("Report", "Manager", FormMethod.Get))
-                    {
-                        @Html.DropDownList("IzvjestajTip")
-                        @Html.DropDownList("IzvjestajRaspon")
-                        <input type="submit" value="Generiraj!" />
-                    }
+                            <p>
+                                Očekivana vremena čekanja:<button type="button" id="true" style="float:right">Prikaži</button>
+                                <button type="button" id="false" style="float:right;margin-right:5px">Sakrij</button>
+                            </p>
+
+                            <p>
+                                Brojevi izdanih tiketa:<button type="button" id="truei" style="float:right">Prikaži</button>
+                                <button type="button" id="falsei" style="float:right;margin-right:5px">Sakrij</button>
+                            </p>
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
+            </div>
+            </div>
+        <div class="span6">
+            <div class="tile triple double-vertical ol-transparent bg-white">
+                <div class="tile-content">
+                    <div class="panel">
+                        <div class="panel-header bg-pink fg-white">Generiranje izvještaja za razdoblje</div>
+                        <div class="panel-content fg-dark nlp nrp">
+                            @using (Html.BeginForm("Report", "Manager", FormMethod.Get))
+                            {
+                                @Html.DropDownList("IzvjestajTip")
+                                @Html.DropDownList("IzvjestajRaspon")
+                                <input type="submit" value="Generiraj!" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
-</div>
 
 
 
-    <div class="container fg-dark">
-        <h2>Opcije redova:</h2>
-        <table class="table hovered">
-            <thead>
-                <tr>
-                    <th class="text-left">Red</th>
-                    <th class="text-left">Opis</th>
-                    <th class="text-left"></th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var opcija in Model)
-                {
+        <div class="container fg-dark">
+            <h2>Opcije redova:</h2>
+            <table class="table hovered">
+                <thead>
                     <tr>
-                        <td>@opcija.tip</td>
-                        <td>
-                        @if (opcija.opis != null)
-                        {
-                            @opcija.opis 
-                        }
-                        </td>
-                        <td>
-                            <button type="button" onclick="location.href='@Url.Action("Edit", new { tip = opcija.tip })'">Uredi</button>
-                            <button type="button" class="tipka" data-tip="@opcija.tip" onclick="salji($(this).data('tip'))">Resetiraj brojač</button>
-                        </td>
+                        <th class="text-left">Red</th>
+                        <th class="text-left">Opis</th>
+                        <th class="text-left"></th>
                     </tr>
-                }
-            </tbody>
-            <tfoot>
-                @Html.ActionLink("Dodaj novu", "Add", "Manager")
-            </tfoot>
-        </table>
-    </div>
+                </thead>
 
-<script>
-    var serv;
-    $(function () {
-        serv = $.connection.cvorHub;
-        $.connection.hub.start().done(function () {
-            console.log('spojeno');
-            $('#refresh').click(function () {
-                var a = $('#velteksta').val();
-                var b = $('#bojateksta').val();
-                if ((a !== '' && !$.isNumeric(a)) || (b !== '' && isNaN(parseInt(b, 16))))
-                    alert('Greška pri unosu vrijednosti');
-                else {
-                    serv.server.pokreni_refresh(a, b);
-                    $('#velteksta').val(a);
-                    $('#bojateksta').val(b);
-                }
-            });
-            $('#reset_sustava2').click(function () {
-                if($('#reset_sustava').val()==='')
-                    alert('Niste unijeli vrijeme');
-                else{
-                    serv.server.postavi_vrijeme_reseta($('#reset_sustava').val());
-                    alert('Vrijeme postavljeno');
-                }
-            });
-            $('#true').click(function () {
-                serv.server.prikazi_vrijeme(true);
-            });
-            $('#false').click(function () {
-                serv.server.prikazi_vrijeme(false);
-            });
-            $('#truei').click(function () {
-                serv.server.prikazi_izdane(true);
-            });
-            $('#falsei').click(function () {
-                serv.server.prikazi_izdane(false);
-            });
+                <tbody>
+                    @foreach (var opcija in Model)
+                    {
+                        <tr>
+                            <td>@opcija.tip</td>
+                            <td>
+                                @if (opcija.opis != null)
+                                {
+                                    @opcija.opis
+                                }
+                            </td>
+                            <td>
+                                <button type="button" onclick="location.href='@Url.Action("Edit", new { tip = opcija.tip })'">Uredi</button>
+                                <button type="button" class="tipka" data-tip="@opcija.tip" onclick="salji($(this).data('tip'))">Resetiraj brojač</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    @Html.ActionLink("Dodaj novu", "Add", "Manager")
+                </tfoot>
+            </table>
+        </div>
 
-            $(document).ready(function () {
-                serv.server.osvjezi_tipove();
+        <script>
+            var serv;
+            $(function () {
+                serv = $.connection.cvorHub;
+                $.connection.hub.start().done(function () {
+                    console.log('spojeno');
+                    $('#refresh').click(function () {
+                        var a = $('#velteksta').val();
+                        var b = $('#bojateksta').val();
+                        if ((a === '' || (a !== '' && !$.isNumeric(a))) || (b === '' || (b !== '' && isNaN(parseInt(b, 16)))))
+                            alert('Greška pri unosu vrijednosti');
+                        else {
+                            serv.server.pokreni_refresh(a, b);
+                            $('#velteksta').val('');
+                            $('#bojateksta').val('');
+                            alert('Screen osvježen');
+                        }
+                    });
+                    $('#reset_sustava2').click(function () {
+                        if ($('#reset_sustava').val() === '')
+                            alert('Niste unijeli vrijeme');
+                        else {
+                            serv.server.postavi_vrijeme_reseta($('#reset_sustava').val());
+                            alert('Vrijeme postavljeno');
+                        }
+                    });
+                    $('#true').click(function () {
+                        serv.server.prikazi_vrijeme(true);
+                    });
+                    $('#false').click(function () {
+                        serv.server.prikazi_vrijeme(false);
+                    });
+                    $('#truei').click(function () {
+                        serv.server.prikazi_izdane(true);
+                    });
+                    $('#falsei').click(function () {
+                        serv.server.prikazi_izdane(false);
+                    });
+
+                    $(document).ready(function () {
+                        serv.server.osvjezi_tipove();
+                    });
+                }).fail(function (error) {
+                    console.log('greska ' + error);
+                });
             });
-        }).fail(function (error) {
-            console.log('greska ' + error);
-        });
-    });
-    function salji(a) {
-        serv.server.reset_brojaca(a);
-    };
-</script>
+            function salji(a) {
+                serv.server.reset_brojaca(a);
+            };
+        </script>
