@@ -18,11 +18,17 @@
 </script>
 
 
-
-<h2>IzdajTiket</h2>
-<h3>Redni broj tiketa: @Model.redniBroj</h3>
-<p>Vrijeme izdavanja: @Model.vrijemeIzdavanja</p>
-<p>Tip: @Model.tip</p>
-<p>Trenutni broj u redu: @ViewBag.brojuredu</p>
-<p>Očekivano vrijeme dolaska na red: @ViewBag.ocekivano</p>
-<p>@Html.ActionLink("Natrag", "Index", "HomeClient")</p>
+<div align="center">
+    <h2>IzdajTiket</h2>
+    <hr/>
+    <div style="border:dashed;border-color:#4F51DB;width:400px;padding:20px" align="left">
+        <h3>Redni broj tiketa: @Model.redniBroj</h3><hr/>
+        <p>Vrijeme izdavanja: @Model.vrijemeIzdavanja</p>
+        <p>Tip: @Model.tip</p>
+        <p>Trenutni broj stranaka ispred Vas: @ViewBag.brojuredu</p>
+        <p>Očekivano vrijeme dolaska na red: @ViewBag.ocekivano</p>
+    </div>
+    <form action="/HomeClient">
+        <button class="large primary" type="submit" id="natrag" style="margin-top:20px">Natrag</button>
+    </form>
+</div>

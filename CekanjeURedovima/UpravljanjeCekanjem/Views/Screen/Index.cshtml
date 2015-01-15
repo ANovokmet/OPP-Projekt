@@ -66,7 +66,7 @@
         </script>
         @foreach (KeyValuePair<string, Tuple<int, double, int>> entry in Model)
         {
-            <div class="span6" id="span6" style="text-align:center;border-color:#@ViewBag.boja;border-style:dotted;border-width:thin;padding:10px">
+            <div class="span6" id="span6" style="text-align:center;border-color:#@ViewBag.boja;border-style:dotted;border-width:thin;padding:10px;height:300px">
                 <p id="informacije" style="text-align:center;font-size:@ViewBag.vel;color:#@ViewBag.boja">
                     Red: <span id="@entry.Key key">@entry.Key</span>
                 </p>

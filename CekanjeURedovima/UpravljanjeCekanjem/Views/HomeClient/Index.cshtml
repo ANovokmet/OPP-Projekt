@@ -12,7 +12,7 @@
         serv.client.dohvati_tipove = function (listatipova, listaopisa) {
             $("#gumbi").html('<span id="gumbi"></span>');
             for (var i = 0, l = listatipova.length; i < l; i++) {
-                $("#gumbi").append('<div class="tile double bg-darkCyan" onclick="location.href=\'../HomeClient/IzdajTiket?tip=' + listatipova[i] + '\'"><div class="tile-status" data-click="transform"><span class="name"><h1 class="fg-white">' + listatipova[i] + '</h1>' + listaopisa[i] + '</span></div></div>');
+                $("#gumbi").append('<div class="tile double bg-darkCyan" onclick="location.href=\'../HomeClient/IzdajTiket?tip=' + listatipova[i] + '\'"><div class="tile-status" data-click="transform"><span><h2 class="fg-white" style="padding-bottom:20px;font-weight:bold">' + listatipova[i] + '</h2><span class="name" style="font-size:14px;padding-bottom:5px">' + listaopisa[i] + '</span></span></div></div>');
             }
 
         };
@@ -28,8 +28,9 @@
                 @foreach (var tip in Model)
                 {
                     <div class="tile double bg-darkCyan" onclick="location.href = '@Url.Action("IzdajTiket", new { tip = tip.tip })'" data-click="transform">
-                        <div class="tile-status">
-                            <span class="name"><h1 class="fg-white">@tip.tip</h1>@tip.opis</span>
+                        <div class="tile-status" align="center">
+                            <span><h2 class="fg-white" style="padding-bottom:20px;font-weight:bold">@tip.tip</h2>
+                            <span class="name" style="font-size:14px;padding-bottom:5px">@tip.opis</span></span>
                         </div>
                     </div>
                 }
@@ -37,5 +38,5 @@
         </div>
 
     </div>
-
+    <br/><br/>
 </div>

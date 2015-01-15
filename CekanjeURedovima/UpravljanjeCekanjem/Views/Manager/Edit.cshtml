@@ -7,11 +7,15 @@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true, "Neuspjelo dodavanje.");
-
-    <p>Izmjeni @Model.tip</p>
-    <p>Opis: @Html.EditorFor(u => u.opis)</p>
-    <p>Ponuđena: @Html.EditorFor(u => u.ponudjena)</p>
+    <br/>
+    <div style="width:250px">
+        <p>Izmjeni @Model.tip</p>
+        <p>Opis: <span style="float:right">@Html.EditorFor(u => u.opis)</span></p>
+        <p>Ponuđena: @Html.EditorFor(u => u.ponudjena)</p>
+    </div>
+    <br/>
     <input type="submit" id="save" value="Spremi izmjene.">
-    <input type="button" id="back" value="Natrag." onClick ="location.href='../Manager/'">
+    <input type="button" id="back" value="Natrag." onclick="location.href='../Manager/'">
     <input type="button" value="Izbriši." id="delete" onclick="parent.location = 'delete?tip=@Model.tip'">
+    
 }

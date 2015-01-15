@@ -7,10 +7,14 @@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true, "Neuspjelo dodavanje.");
-
-    <p>Tip: @Html.TextBoxFor(u => u.tip)</p>
-    <p>Opis: @Html.TextBoxFor(u => u.opis)</p>
-    <p>Ponuđena: @Html.CheckBoxFor(u => u.ponudjena)</p>
+    <br/>
+    <div style="width:250px">
+        <p>Tip: <span style="float:right">@Html.TextBoxFor(u => u.tip)</span></p>
+        <p>Opis: <span style="float:right">@Html.TextBoxFor(u => u.opis)</span></p>
+        <p>Ponuđena: <span>@Html.CheckBoxFor(u => u.ponudjena)</span></p>
+    </div>
+    <br/>
     <input type="submit" value="Dodaj tip tiketa" id="add">
     <input type="button" id="back" value="Natrag." onClick ="location.href='../Manager/'">
+    
 }
