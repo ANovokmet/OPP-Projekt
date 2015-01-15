@@ -148,46 +148,6 @@ namespace UpravljanjeCekanjem
             Global.semafor.Release();
         }
 
-        public void Promijeni_salter(string šalter, string username)
-        {
-            using (var db = new DataBaseEntities())
-            {
-                Korisnik korisnik;
-                korisnik = db.Korisnik.FirstOrDefault(c => c.userName == username);
-                korisnik.šalter = šalter;
-                db.SaveChanges();
-            }
-        }
-
-        public void Next_client(string šalter)
-        {
-            using (var db = new DataBaseEntities())
-            {
-                Tiket tiket;
-                var tiketi = from t in db.Tiket
-                             where t.vrijemeDolaska == null
-                             where šalter.Equals(t.tip)
-                             orderby t.vrijemeIzdavanja ascending
-                             select t;
-                var neobrađeni = from t in db.Tiket
-                                 where t.vrijemeDolaska != null
-                                 where šalter.Equals(t.tip)
-                                 where t.obrađeno == false
-                                 orderby t.vrijemeDolaska descending
-                                 select t;
-                if (neobrađeni.Any())
-                {
-                    neobrađeni.First().obrađeno = true;
-                }
-                if (tiketi.Any())
-                {
-                    tiket = tiketi.First();
-                    tiket.vrijemeDolaska = DateTime.Now;
-                }
-                Osvjezi_screen_vrijeme(šalter);
-                db.SaveChanges();
-            }
-        }
         public void postavi_vrijeme_reseta(String vrijeme)
         {
             String[] vremena = vrijeme.Split(':');

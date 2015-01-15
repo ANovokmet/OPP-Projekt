@@ -44,9 +44,68 @@ namespace UpravljanjeCekanjem.Controllers
                                                             Text = x.ToString()
                                                         });
             ViewData["šalter"] = šalter;
-            ViewData["tiket"] = tiket;
+            ViewData["tiket"] = tiket.ToString();
             ViewData["tipovi"] = tipoviEnum;
+
+            
+
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach (var tip in tipovi)
+            {
+                items.Add(new SelectListItem { Text = tip, Value = tip });
+            }
+            ViewBag.TipoviSaltera = items;
+
+
+
             return View();
+        }
+
+        public ActionResult NextClient(string salter)
+        {
+            System.Diagnostics.Debug.WriteLine("NextClient" + salter);
+            using (var db = new DataBaseEntities())
+            {
+                Tiket tiket;
+                var tiketi = from t in db.Tiket
+                             where t.vrijemeDolaska == null
+                             where salter.Equals(t.tip)
+                             orderby t.vrijemeIzdavanja ascending
+                             select t;
+                var neobrađeni = from t in db.Tiket
+                                 where t.vrijemeDolaska != null
+                                 where salter.Equals(t.tip)
+                                 where t.obrađeno == false
+                                 orderby t.vrijemeDolaska descending
+                                 select t;
+                if (neobrađeni.Any())
+                {
+                    neobrađeni.First().obrađeno = true;
+                }
+                if (tiketi.Any())
+                {
+                    tiket = tiketi.First();
+                    tiket.vrijemeDolaska = DateTime.Now;
+                }
+                //Osvjezi_screen_vrijeme(šalter);
+                db.SaveChanges();
+
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult PromijeniSalter(string TipoviSaltera)
+        {
+            string username = User.Identity.Name;
+            System.Diagnostics.Debug.WriteLine("PromjeniSalter" + TipoviSaltera + username);
+            using (var db = new DataBaseEntities())
+            {
+                Korisnik korisnik;
+                korisnik = db.Korisnik.FirstOrDefault(c => c.userName == username);
+                korisnik.šalter = TipoviSaltera;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
 
     }

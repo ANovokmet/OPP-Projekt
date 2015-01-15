@@ -12,22 +12,38 @@
 </p>
 <div class="grid">
     <div class="row">
-        <div class="span6" style="border-style:solid;border-color:blueviolet">
+        <div class="span6 offset1" style="border-style:solid;border-color:blueviolet">
             <div class="row">
-                <div class="span2">
-                    <p style="margin-top:35%;margin-bottom:35%;margin-left:4px;font-size:large">@Html.DropDownList("tipovi")</p>
-                </div>
-                <div class="span3">
-                    <button class="large primary" type="button" id="šalter" style="margin-top:17%" data-user=@User.Identity.Name>Promijeni šalter</button>
+                <div class="span6 offset1">
+                    @using (Html.BeginForm("PromijeniSalter", "Clerk", FormMethod.Get))
+                    {
+
+                        @Html.DropDownList("TipoviSaltera")
+                        <input class="large primary" type="submit" value="Promijeni šalter" />
+                    }
                 </div>
             </div>
         </div>
         <div class="span6">
-            <div class="tile bg-cyan" id="next" data-pult=@ViewData["šalter"] data-num=@ViewData["tiket"] style="text-align:center;color:white">
-                <div class="tile-content" style="margin-top:25%;font-size:x-large">
-                    Sljedeći klijent
+            @if (!ViewData["tiket"].Equals("0"))
+            {
+                <div class="tile bg-cyan" id="next" onclick="location.href='@Url.Action("NextClient", new { salter = ViewData["šalter"] })'" style=" text-align:center;color:white">
+                    <div class="tile-content" style="margin-top:25%;font-size:x-large">
+                        Sljedeći klijent
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="tile bg-cyan" id="next" onclick="location.href='@Url.Action("Index")'" style=" text-align:center;color:white">
+                    <div class="tile-content" style="margin-top:25%;font-size:x-large">
+                        Sljedeći klijent
+                    </div>
+                </div>
+            }
+
+                
+            
             <div class="tile bg-cyan" id="flash" style="text-align:center;color:white">
                 <div class="tile-content" style="margin-top:25%;font-size:x-large">
                     Zabljesni brojem!
@@ -43,26 +59,10 @@
             $('#flash').click(function () {
                 serv.server.pokreni_flash('@ViewData["šalter"]');
             });
-            $('#next').click(function () {
-                var tip = $('#next').data('pult');
-                var naRedu = $('#next').data('num');
-                if (naRedu != 0)
-                    serv.server.next_client(tip);
-                serv.server.osvjezi_screen_tip();
-                setTimeout(
-                function () {
-                    location.reload();
-                }, 500);
-            });
-            $('#šalter').click(function () {
-                var user = $('#šalter').data('user');
-                var e = document.getElementById("tipovi");
-                var tip = e.options[e.selectedIndex].text;
-                serv.server.promijeni_salter(tip, user);
-                setTimeout(
-                    function () {
-                        location.reload();
-                    }, 500);
+
+            $(document).ready(function () {
+                serv.server.osvjezi_screen_vrijeme("@ViewData["šalter"]");
+                console.log("osvjezi vrijeme @ViewData["šalter"]");
             });
         }).fail(function (error) {
             console.log('greska ' + error);
